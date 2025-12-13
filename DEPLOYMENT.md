@@ -41,11 +41,13 @@ Copy the database ID from the output and paste it into [backend/wrangler.toml](b
 
 The migration scripts will run all migration files in sequence (0001 through 0007).
 
-**For production:**
+**For production (remote database):**
 ```bash
 cd backend
 npm run migrate:prod
 ```
+
+This will execute migrations on your **remote Cloudflare D1 database** using the `--remote` flag.
 
 **For local development:**
 ```bash
@@ -53,7 +55,14 @@ cd backend
 npm run migrate:local
 ```
 
-**Note:** If you're upgrading an existing deployment, migrations are designed to be idempotent where possible. However, migration 0007 modifies the visits table to remove rating constraints, which requires recreating the table.
+This will execute migrations on your **local database** for testing.
+
+**Important Notes:**
+- `migrate:prod` uses the `--remote` flag to target your production database in Cloudflare
+- `migrate:local` uses the `--local` flag to target your local development database
+- For a **fresh deployment**, all migrations will succeed
+- If you're **upgrading an existing deployment**, migration 0007 modifies the visits table to remove rating constraints, which requires recreating the table
+- Make sure you're logged into Wrangler (`wrangler login`) before running production migrations
 
 ## Step 4: Deploy Backend (Cloudflare Workers)
 
