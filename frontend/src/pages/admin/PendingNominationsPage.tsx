@@ -12,6 +12,7 @@ import type { Restaurant } from '../../types';
 export function PendingNominationsPage() {
   const [pending, setPending] = useState<Restaurant[]>([]);
   const [loading, setLoading] = useState(true);
+  const [searchTerm, setSearchTerm] = useState('');
   const toast = useToast();
 
   useEffect(() => {
@@ -81,7 +82,21 @@ export function PendingNominationsPage() {
           </div>
         </div>
 
-        {pending.length === 0 ? (
+        {/* Search */}
+        <div className="max-w-md">
+          <input
+            type="text"
+            placeholder="Search by name or address..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="input w-full"
+          />
+        </div>
+
+        {pending.filter((r) => {
+          const search = searchTerm.toLowerCase();
+          return r.name.toLowerCase().includes(search) || r.address.toLowerCase().includes(search);
+        }).length === 0 ? (
           <div className="card text-center py-12">
             <p className="text-gray-600 mb-4">No pending nominations</p>
             <Link to="/nominations" className="btn btn-primary">
@@ -90,7 +105,10 @@ export function PendingNominationsPage() {
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {pending.map((restaurant) => (
+            {pending.filter((r) => {
+              const search = searchTerm.toLowerCase();
+              return r.name.toLowerCase().includes(search) || r.address.toLowerCase().includes(search);
+            }).map((restaurant) => (
               <RestaurantCard
                 key={restaurant.id}
                 restaurant={restaurant}

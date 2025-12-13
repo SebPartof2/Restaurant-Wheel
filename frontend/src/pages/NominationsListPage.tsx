@@ -16,6 +16,7 @@ export function NominationsListPage() {
   const [restaurants, setRestaurants] = useState<Restaurant[]>([]);
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState<RestaurantState | 'all'>('all');
+  const [searchTerm, setSearchTerm] = useState('');
   const [editingRestaurant, setEditingRestaurant] = useState<Restaurant | null>(null);
   const [editName, setEditName] = useState('');
   const [editAddress, setEditAddress] = useState('');
@@ -122,6 +123,17 @@ export function NominationsListPage() {
           </Link>
         </div>
 
+        {/* Search */}
+        <div className="max-w-md">
+          <input
+            type="text"
+            placeholder="Search by name or address..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="input w-full"
+          />
+        </div>
+
         {/* Filters */}
         <div className="flex gap-2 flex-wrap">
           <button
@@ -157,13 +169,19 @@ export function NominationsListPage() {
         </div>
 
         {/* Restaurant Grid */}
-        {restaurants.length === 0 ? (
+        {restaurants.filter((r) => {
+          const search = searchTerm.toLowerCase();
+          return r.name.toLowerCase().includes(search) || r.address.toLowerCase().includes(search);
+        }).length === 0 ? (
           <div className="card text-center py-12">
             <p className="text-gray-600">No restaurants found.</p>
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {restaurants.map((restaurant) => (
+            {restaurants.filter((r) => {
+              const search = searchTerm.toLowerCase();
+              return r.name.toLowerCase().includes(search) || r.address.toLowerCase().includes(search);
+            }).map((restaurant) => (
               <RestaurantCard
                 key={restaurant.id}
                 restaurant={restaurant}
