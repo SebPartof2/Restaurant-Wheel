@@ -201,6 +201,10 @@ class ApiClient {
   async getOverallStats(): Promise<{ overall_average_rating: number; rated_restaurant_count: number }> {
     return this.request('/restaurants/stats/overall');
   }
+
+  async getStatistics(): Promise<{ statistics: import('../../../shared/types').Statistics }> {
+    return this.request('/statistics');
+  }
 }
 
 export const api = new ApiClient();

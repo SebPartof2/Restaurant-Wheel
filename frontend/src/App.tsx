@@ -16,6 +16,7 @@ import { NominationsListPage } from './pages/NominationsListPage';
 import { NominationFormPage } from './pages/NominationFormPage';
 import { RestaurantDetailPage } from './pages/RestaurantDetailPage';
 import { WheelPage } from './pages/WheelPage';
+import { StatisticsPage } from './pages/StatisticsPage';
 import { PendingNominationsPage } from './pages/admin/PendingNominationsPage';
 import { UpcomingPage } from './pages/admin/UpcomingPage';
 import { VisitedPage } from './pages/admin/VisitedPage';
@@ -151,6 +152,16 @@ function AppRoutes() {
             <AdminRoute>
               <WheelPage />
             </AdminRoute>
+          }
+        />
+
+        {/* Statistics route */}
+        <Route
+          path="/statistics"
+          element={
+            <PrivateRoute>
+              <StatisticsPage />
+            </PrivateRoute>
           }
         />
 

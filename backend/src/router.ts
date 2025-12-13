@@ -32,6 +32,9 @@ import { handleGetVisits, handleMarkAttendance, handleSubmitRating } from './han
 // Admin handlers
 import { handleGetUsers, handleUpdateUser, handleAddToWhitelist, handleGetPendingNominations, handleCreateProvisionalUser } from './handlers/admin';
 
+// Statistics handlers
+import { handleGetStatistics } from './handlers/statistics';
+
 export function createRouter() {
   const app = new Hono<{ Bindings: Env; Variables: RequestContext }>();
 
@@ -108,6 +111,15 @@ export function createRouter() {
   admin.get('/nominations/pending', requireAuth, requireAdmin, handleGetPendingNominations);
 
   app.route('/api/admin', admin);
+
+  // ======================
+  // Statistics routes
+  // ======================
+  const statistics = new Hono<{ Bindings: Env; Variables: RequestContext }>();
+
+  statistics.get('/', requireAuth, handleGetStatistics);
+
+  app.route('/api/statistics', statistics);
 
   return app;
 }

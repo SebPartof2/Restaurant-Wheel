@@ -116,3 +116,47 @@ export interface CreateProvisionalUserRequest {
   email: string;
   name?: string;
 }
+
+export interface Statistics {
+  // Restaurant stats
+  totalRestaurants: number;
+  pendingRestaurants: number;
+  activeRestaurants: number;
+  upcomingRestaurants: number;
+  visitedRestaurants: number;
+  fastFoodCount: number;
+  nonFastFoodCount: number;
+
+  // Rating stats
+  overallAverageRating: number;
+  totalRatingsGiven: number;
+  ratedRestaurantCount: number;
+  unratedRestaurantCount: number;
+
+  // User stats
+  totalUsers: number;
+  adminCount: number;
+  provisionalCount: number;
+
+  // Top lists
+  topRatedRestaurants: Array<{
+    id: number;
+    name: string;
+    average_rating: number;
+    rating_count: number;
+  }>;
+
+  mostActiveNominators: Array<{
+    id: number;
+    name: string | null;
+    email: string;
+    nomination_count: number;
+  }>;
+
+  mostActiveRaters: Array<{
+    id: number;
+    name: string | null;
+    email: string;
+    rating_count: number;
+  }>;
+}

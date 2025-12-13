@@ -43,6 +43,9 @@ export function Header() {
               <Link to="/nominations" className="hover:text-gray-200 transition">
                 Restaurants
               </Link>
+              <Link to="/statistics" className="hover:text-gray-200 transition">
+                Statistics
+              </Link>
 
               {user.is_admin && (
                 <>
