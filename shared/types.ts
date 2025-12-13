@@ -75,6 +75,8 @@ export interface CreateRestaurantRequest {
   name: string;
   address: string;
   is_fast_food: boolean;
+  menu_link?: string;
+  photo_link?: string;
   nominated_by_user_id?: number; // For admin creating on behalf of user
 }
 

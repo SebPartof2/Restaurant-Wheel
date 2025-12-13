@@ -72,7 +72,7 @@ export function UpcomingPage() {
     setSaving(true);
     try {
       await api.updateRestaurant(selectedForReservation.id, {
-        reservation_datetime: null,
+        reservation_datetime: undefined,
       });
       toast.success('Reservation cleared!');
       setSelectedForReservation(null);
