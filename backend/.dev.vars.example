@@ -1,0 +1,5 @@
+# Local development environment variables
+# Copy this file to .dev.vars and fill in your values
+
+ENVIRONMENT=development
+FRONTEND_URL=http://localhost:5173
