@@ -1,0 +1,24 @@
+{
+  "name": "restaurant-wheel-backend",
+  "version": "1.0.0",
+  "description": "Cloudflare Workers backend for The Wheel restaurant picker",
+  "main": "src/index.ts",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "build": "tsc",
+    "migrate:local": "wrangler d1 execute restaurant-wheel-db --local --file=./migrations/0001_initial.sql",
+    "migrate:prod": "wrangler d1 execute restaurant-wheel-db --file=./migrations/0001_initial.sql"
+  },
+  "keywords": ["cloudflare-workers", "restaurant", "wheel"],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20241127.0",
+    "typescript": "^5.7.2",
+    "wrangler": "^3.93.0"
+  },
+  "dependencies": {
+    "hono": "^4.6.14"
+  }
+}
