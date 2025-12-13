@@ -39,15 +39,21 @@ Copy the database ID from the output and paste it into [backend/wrangler.toml](b
 
 ## Step 3: Run Database Migrations
 
+The migration scripts will run all migration files in sequence (0001 through 0007).
+
 **For production:**
 ```bash
+cd backend
 npm run migrate:prod
 ```
 
 **For local development:**
 ```bash
+cd backend
 npm run migrate:local
 ```
+
+**Note:** If you're upgrading an existing deployment, migrations are designed to be idempotent where possible. However, migration 0007 modifies the visits table to remove rating constraints, which requires recreating the table.
 
 ## Step 4: Deploy Backend (Cloudflare Workers)
 
@@ -92,13 +98,15 @@ wrangler pages deploy dist --project-name=restaurant-wheel
 
 ## Step 7: Update CORS Settings
 
-Update [backend/wrangler.toml](backend/wrangler.toml:17) with your frontend URL:
+Update [backend/wrangler.toml](backend/wrangler.toml:13-15) with your frontend URL:
 
 ```toml
 [vars]
 ENVIRONMENT = "production"
-FRONTEND_URL = "https://restaurant-wheel.pages.dev"
+FRONTEND_URL = "https://restaurant-wheel.pages.dev"  # Replace with your actual frontend URL
 ```
+
+**Important:** Make sure to replace `https://restaurant-wheel.pages.dev` with your actual Cloudflare Pages URL.
 
 Redeploy the backend:
 
@@ -129,6 +137,31 @@ npm run dev
 ```
 
 Frontend runs at `http://localhost:5173`
+
+## Features Overview
+
+### Restaurant States
+- **Pending**: Newly nominated restaurants awaiting admin approval
+- **Active**: Approved restaurants available for the wheel
+- **Upcoming**: Selected restaurant with optional reservation date/time
+- **Visited**: Completed visits with ratings
+
+### User Management
+- **Email Whitelist**: Control who can sign up
+- **Provisional Users**: Invite users via signup codes (created by admins)
+- **Admin Users**: Can approve/reject nominations and manage all restaurants
+
+### Rating System
+- Accepts any positive number (decimals allowed, no upper limit)
+- Displayed with "/ 10" as reference scale for consistency
+- Shows who gave each rating
+- Automatic average calculation per restaurant
+
+### Visibility
+- Every restaurant shows who nominated it
+- All ratings show the user's name or email
+- Reservation dates displayed for upcoming restaurants
+- Visit history tracking
 
 ## Testing the Deployment
 

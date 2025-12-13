@@ -77,8 +77,8 @@ export function VisitedPage() {
         toast.error('Please enter valid numeric ratings');
         return;
       }
-      if (rating < 1 || rating > 10) {
-        toast.error('Ratings must be between 1 and 10');
+      if (rating <= 0) {
+        toast.error('Ratings must be positive numbers');
         return;
       }
       parsedRatings[userId] = rating;
@@ -241,13 +241,12 @@ export function VisitedPage() {
                     {selectedUsers.includes(user.id) && (
                       <div className="ml-7 flex items-center gap-3">
                         <label htmlFor={`rating-${user.id}`} className="text-sm text-gray-600">
-                          Rating (1-10):
+                          Rating:
                         </label>
                         <input
                           id={`rating-${user.id}`}
                           type="number"
-                          min="1"
-                          max="10"
+                          min="0.1"
                           step="0.1"
                           value={ratings[user.id] || ''}
                           onChange={(e) => {

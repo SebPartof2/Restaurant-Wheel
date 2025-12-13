@@ -77,6 +77,11 @@ export function RestaurantDetailPage() {
                 </span>
               </div>
               <p className="text-gray-600">{restaurant.address}</p>
+              {restaurant.nominated_by && (
+                <p className="text-gray-500 text-sm mt-1">
+                  Nominated by: {restaurant.nominated_by.name || restaurant.nominated_by.email}
+                </p>
+              )}
             </div>
 
             {restaurant.is_fast_food && (
@@ -126,7 +131,9 @@ export function RestaurantDetailPage() {
                 {visits.map((visit) => (
                   <div key={visit.id} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
                     <div>
-                      <p className="font-medium">User #{visit.user_id}</p>
+                      <p className="font-medium">
+                        {visit.user ? (visit.user.name || visit.user.email) : `User #${visit.user_id}`}
+                      </p>
                       <p className="text-sm text-gray-600">
                         {visit.attended ? 'Attended' : 'Did not attend'}
                       </p>
@@ -135,6 +142,7 @@ export function RestaurantDetailPage() {
                       <div className="flex items-center gap-1">
                         <span className="text-yellow-500">★</span>
                         <span className="font-medium">{visit.rating}</span>
+                        <span className="text-gray-500 text-sm">/ 10</span>
                       </div>
                     )}
                   </div>

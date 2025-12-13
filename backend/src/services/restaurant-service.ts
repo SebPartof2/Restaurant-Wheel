@@ -11,30 +11,98 @@ export class RestaurantService {
    * Get all restaurants with optional filtering
    */
   async getRestaurants(state?: RestaurantState, userId?: number): Promise<Restaurant[]> {
-    let query = 'SELECT * FROM restaurants';
+    let query = `
+      SELECT r.*,
+             u.id as nominator_id, u.email as nominator_email, u.name as nominator_name,
+             u.is_admin as nominator_is_admin, u.is_whitelisted as nominator_is_whitelisted,
+             u.is_provisional as nominator_is_provisional, u.created_at as nominator_created_at
+      FROM restaurants r
+      LEFT JOIN users u ON r.nominated_by_user_id = u.id
+    `;
     const params: any[] = [];
 
     if (state) {
-      query += ' WHERE state = ?';
+      query += ' WHERE r.state = ?';
       params.push(state);
     } else if (userId) {
-      query += ' WHERE nominated_by_user_id = ?';
+      query += ' WHERE r.nominated_by_user_id = ?';
       params.push(userId);
     }
 
-    query += ' ORDER BY created_at DESC';
+    query += ' ORDER BY r.created_at DESC';
 
-    return await this.db.execute<Restaurant>(query, params);
+    const rows = await this.db.execute<any>(query, params);
+
+    // Transform rows to include nested user object
+    return rows.map(row => ({
+      id: row.id,
+      name: row.name,
+      address: row.address,
+      is_fast_food: row.is_fast_food,
+      menu_link: row.menu_link,
+      photo_link: row.photo_link,
+      state: row.state,
+      nominated_by_user_id: row.nominated_by_user_id,
+      created_by_admin_id: row.created_by_admin_id,
+      average_rating: row.average_rating,
+      created_at: row.created_at,
+      updated_at: row.updated_at,
+      visited_at: row.visited_at,
+      reservation_datetime: row.reservation_datetime,
+      nominated_by: row.nominator_id ? {
+        id: row.nominator_id,
+        email: row.nominator_email,
+        name: row.nominator_name,
+        is_admin: row.nominator_is_admin,
+        is_whitelisted: row.nominator_is_whitelisted,
+        is_provisional: row.nominator_is_provisional,
+        created_at: row.nominator_created_at
+      } : undefined
+    }));
   }
 
   /**
    * Get a single restaurant by ID
    */
   async getRestaurantById(id: number): Promise<Restaurant | null> {
-    return await this.db.queryOne<Restaurant>(
-      'SELECT * FROM restaurants WHERE id = ?',
+    const row = await this.db.queryOne<any>(
+      `SELECT r.*,
+              u.id as nominator_id, u.email as nominator_email, u.name as nominator_name,
+              u.is_admin as nominator_is_admin, u.is_whitelisted as nominator_is_whitelisted,
+              u.is_provisional as nominator_is_provisional, u.created_at as nominator_created_at
+       FROM restaurants r
+       LEFT JOIN users u ON r.nominated_by_user_id = u.id
+       WHERE r.id = ?`,
       [id]
     );
+
+    if (!row) return null;
+
+    return {
+      id: row.id,
+      name: row.name,
+      address: row.address,
+      is_fast_food: row.is_fast_food,
+      menu_link: row.menu_link,
+      photo_link: row.photo_link,
+      state: row.state,
+      nominated_by_user_id: row.nominated_by_user_id,
+      created_by_admin_id: row.created_by_admin_id,
+      average_rating: row.average_rating,
+      created_at: row.created_at,
+      updated_at: row.updated_at,
+      visited_at: row.visited_at,
+      reservation_datetime: row.reservation_datetime,
+      nominated_by: row.nominator_id ? {
+        id: row.nominator_id,
+        email: row.nominator_email,
+        name: row.nominator_name,
+        is_admin: row.nominator_is_admin,
+        is_whitelisted: row.nominator_is_whitelisted,
+        is_provisional: row.nominator_is_provisional,
+        created_at: row.nominator_created_at
+      } : undefined
+    };
   }
 
   /**
@@ -215,14 +283,49 @@ export class RestaurantService {
    * Get all active restaurants (for wheel)
    */
   async getActiveRestaurants(excludeFastFood: boolean = false): Promise<Restaurant[]> {
-    let query = 'SELECT * FROM restaurants WHERE state = ?';
+    let query = `
+      SELECT r.*,
+             u.id as nominator_id, u.email as nominator_email, u.name as nominator_name,
+             u.is_admin as nominator_is_admin, u.is_whitelisted as nominator_is_whitelisted,
+             u.is_provisional as nominator_is_provisional, u.created_at as nominator_created_at
+      FROM restaurants r
+      LEFT JOIN users u ON r.nominated_by_user_id = u.id
+      WHERE r.state = ?
+    `;
     const params: any[] = ['active'];
 
     if (excludeFastFood) {
-      query += ' AND is_fast_food = ?';
+      query += ' AND r.is_fast_food = ?';
       params.push(0);
     }
 
-    return await this.db.execute<Restaurant>(query, params);
+    const rows = await this.db.execute<any>(query, params);
+
+    // Transform rows to include nested user object
+    return rows.map(row => ({
+      id: row.id,
+      name: row.name,
+      address: row.address,
+      is_fast_food: row.is_fast_food,
+      menu_link: row.menu_link,
+      photo_link: row.photo_link,
+      state: row.state,
+      nominated_by_user_id: row.nominated_by_user_id,
+      created_by_admin_id: row.created_by_admin_id,
+      average_rating: row.average_rating,
+      created_at: row.created_at,
+      updated_at: row.updated_at,
+      visited_at: row.visited_at,
+      reservation_datetime: row.reservation_datetime,
+      nominated_by: row.nominator_id ? {
+        id: row.nominator_id,
+        email: row.nominator_email,
+        name: row.nominator_name,
+        is_admin: row.nominator_is_admin,
+        is_whitelisted: row.nominator_is_whitelisted,
+        is_provisional: row.nominator_is_provisional,
+        created_at: row.nominator_created_at
+      } : undefined
+    }));
   }
 }

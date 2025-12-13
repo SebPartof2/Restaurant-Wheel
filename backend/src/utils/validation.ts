@@ -38,7 +38,7 @@ export function isValidRestaurantState(state: string): boolean {
  * Validate rating value
  */
 export function isValidRating(rating: number): boolean {
-  return Number.isInteger(rating) && rating >= 1 && rating <= 10;
+  return typeof rating === 'number' && !isNaN(rating) && rating > 0;
 }
 
 /**

@@ -66,10 +66,10 @@ export async function handleSubmitRating(c: Context<{ Bindings: Env; Variables: 
       return c.json({ error: 'user_id and valid rating are required' }, 400);
     }
 
-    // Allow any numeric rating between 0.1 and 10 (inclusive)
-    if (body.rating < 0.1 || body.rating > 10) {
-      console.log('Rating out of range:', body.rating);
-      return c.json({ error: 'Rating must be between 1 and 10' }, 400);
+    // Allow any numeric rating (no upper limit, but must be positive)
+    if (body.rating <= 0) {
+      console.log('Rating must be positive:', body.rating);
+      return c.json({ error: 'Rating must be a positive number' }, 400);
     }
 
     const db = createDbService(c.env);
