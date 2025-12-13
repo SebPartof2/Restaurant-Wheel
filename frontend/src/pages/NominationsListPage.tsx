@@ -33,7 +33,22 @@ export function NominationsListPage() {
     try {
       const filterState = filter === 'all' ? undefined : filter;
       const { restaurants } = await api.getRestaurants(filterState);
-      setRestaurants(restaurants);
+
+      // Sort: first by status (pending, upcoming, active, visited), then alphabetically
+      const statusOrder: Record<RestaurantState, number> = {
+        pending: 1,
+        upcoming: 2,
+        active: 3,
+        visited: 4,
+      };
+
+      const sorted = restaurants.sort((a, b) => {
+        const statusDiff = statusOrder[a.state] - statusOrder[b.state];
+        if (statusDiff !== 0) return statusDiff;
+        return a.name.localeCompare(b.name);
+      });
+
+      setRestaurants(sorted);
     } catch (error) {
       console.error('Failed to load restaurants:', error);
     } finally {

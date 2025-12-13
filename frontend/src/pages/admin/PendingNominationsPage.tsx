@@ -21,7 +21,11 @@ export function PendingNominationsPage() {
   const loadPending = async () => {
     try {
       const { nominations } = await api.getPendingNominations();
-      setPending(nominations);
+
+      // Sort alphabetically by name
+      const sorted = nominations.sort((a, b) => a.name.localeCompare(b.name));
+
+      setPending(sorted);
     } catch (error) {
       toast.error('Failed to load pending nominations');
     } finally {
