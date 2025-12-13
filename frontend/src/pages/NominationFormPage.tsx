@@ -18,7 +18,8 @@ export function NominationFormPage() {
       navigate('/nominations');
     } catch (error) {
       toast.error(error instanceof Error ? error.message : 'Failed to create nomination');
-      throw error;
+      console.error('Nomination error:', error);
+      // Don't throw to prevent unhandled promise rejection
     }
   };
 
