@@ -44,7 +44,7 @@ export function RestaurantCard({
         <div className="flex-1">
           <div className="flex items-center gap-2 mb-1">
             <h3 className="text-lg font-bold text-gray-900">{restaurant.name}</h3>
-            {restaurant.is_fast_food && (
+            {!!restaurant.is_fast_food && (
               <span className="text-xs bg-orange-100 text-orange-800 px-2 py-1 rounded">
                 Fast Food
               </span>

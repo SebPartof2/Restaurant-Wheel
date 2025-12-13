@@ -84,7 +84,7 @@ export function RestaurantDetailPage() {
               )}
             </div>
 
-            {restaurant.is_fast_food && (
+            {!!restaurant.is_fast_food && (
               <span className="bg-orange-100 text-orange-800 px-3 py-1 rounded-lg text-sm font-medium">
                 Fast Food
               </span>
