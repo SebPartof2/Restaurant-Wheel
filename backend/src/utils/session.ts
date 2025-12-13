@@ -56,12 +56,12 @@ export function getSessionFromCookie(cookieHeader: string | null, cookieName: st
  */
 export function createSessionCookie(sessionId: string, cookieName: string, expiryDate: Date): string {
   const expires = expiryDate.toUTCString();
-  return `${cookieName}=${sessionId}; HttpOnly; Secure; SameSite=Strict; Path=/; Expires=${expires}`;
+  return `${cookieName}=${sessionId}; HttpOnly; Secure; SameSite=None; Path=/; Expires=${expires}`;
 }
 
 /**
  * Create cookie to delete session
  */
 export function deleteSessionCookie(cookieName: string): string {
-  return `${cookieName}=; HttpOnly; Secure; SameSite=Strict; Path=/; Max-Age=0`;
+  return `${cookieName}=; HttpOnly; Secure; SameSite=None; Path=/; Max-Age=0`;
 }
