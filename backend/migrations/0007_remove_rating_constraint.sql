@@ -1,9 +1,5 @@
 -- Remove rating constraint and change to REAL type for decimal support
-
--- Disable foreign key constraints temporarily
-PRAGMA foreign_keys=OFF;
-
-BEGIN TRANSACTION;
+-- Note: D1 handles transactions automatically, no need for explicit BEGIN/COMMIT
 
 -- Create new visits table without rating constraint
 CREATE TABLE visits_new (
@@ -33,8 +29,3 @@ ALTER TABLE visits_new RENAME TO visits;
 -- Recreate indexes
 CREATE INDEX idx_visits_restaurant ON visits(restaurant_id);
 CREATE INDEX idx_visits_user ON visits(user_id);
-
-COMMIT;
-
--- Re-enable foreign key constraints
-PRAGMA foreign_keys=ON;
