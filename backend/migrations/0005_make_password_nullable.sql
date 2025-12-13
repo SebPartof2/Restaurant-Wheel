@@ -1,9 +1,5 @@
 -- Make password_hash nullable for provisional users
-
--- Disable foreign key constraints temporarily
-PRAGMA foreign_keys=OFF;
-
-BEGIN TRANSACTION;
+-- Note: D1 handles transactions automatically, no need for explicit BEGIN/COMMIT
 
 -- SQLite doesn't support ALTER COLUMN directly, so we need to recreate the table
 -- Create new table with nullable password_hash
@@ -34,8 +30,3 @@ ALTER TABLE users_new RENAME TO users;
 -- Recreate indexes
 CREATE UNIQUE INDEX IF NOT EXISTS idx_users_email ON users(email);
 CREATE INDEX IF NOT EXISTS idx_users_signup_code ON users(signup_code);
-
-COMMIT;
-
--- Re-enable foreign key constraints
-PRAGMA foreign_keys=ON;
