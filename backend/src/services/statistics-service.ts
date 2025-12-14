@@ -226,6 +226,7 @@ export class StatisticsService {
     `);
 
     // Average rating of nominated restaurants per user (visited only)
+    // Averages the average rating of each nominated visited restaurant
     const nominatorRestaurantAverages = await this.db.execute<{
       id: number;
       name: string | null;
