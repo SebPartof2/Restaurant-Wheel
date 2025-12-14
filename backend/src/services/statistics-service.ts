@@ -44,6 +44,34 @@ export interface Statistics {
     email: string;
     rating_count: number;
   }>;
+
+  // Full leaderboard (all rated restaurants)
+  restaurantLeaderboard: Array<{
+    id: number;
+    name: string;
+    average_rating: number;
+    rating_count: number;
+    state: string;
+  }>;
+
+  // User rating averages
+  userRatingAverages: Array<{
+    id: number;
+    name: string | null;
+    email: string;
+    average_rating: number;
+    rating_count: number;
+  }>;
+
+  // Average rating of nominated restaurants per user
+  nominatorRestaurantAverages: Array<{
+    id: number;
+    name: string | null;
+    email: string;
+    average_rating: number;
+    nominated_count: number;
+    rated_nominated_count: number;
+  }>;
 }
 
 export class StatisticsService {
@@ -155,6 +183,79 @@ export class StatisticsService {
       LIMIT 10
     `);
 
+    // Full restaurant leaderboard (all rated restaurants)
+    const restaurantLeaderboard = await this.db.execute<{
+      id: number;
+      name: string;
+      average_rating: number;
+      rating_count: number;
+      state: string;
+    }>(`
+      SELECT
+        r.id,
+        r.name,
+        AVG(v.rating) as average_rating,
+        COUNT(v.rating) as rating_count,
+        r.state
+      FROM restaurants r
+      INNER JOIN visits v ON r.id = v.restaurant_id
+      WHERE v.rating IS NOT NULL
+      GROUP BY r.id, r.name, r.state
+      ORDER BY average_rating DESC, rating_count DESC
+    `);
+
+    // User rating averages (how users rate on average)
+    const userRatingAverages = await this.db.execute<{
+      id: number;
+      name: string | null;
+      email: string;
+      average_rating: number;
+      rating_count: number;
+    }>(`
+      SELECT
+        u.id,
+        u.name,
+        u.email,
+        AVG(v.rating) as average_rating,
+        COUNT(v.rating) as rating_count
+      FROM users u
+      INNER JOIN visits v ON u.id = v.user_id
+      WHERE v.rating IS NOT NULL
+      GROUP BY u.id, u.name, u.email
+      ORDER BY average_rating DESC, rating_count DESC
+    `);
+
+    // Average rating of nominated restaurants per user
+    const nominatorRestaurantAverages = await this.db.execute<{
+      id: number;
+      name: string | null;
+      email: string;
+      average_rating: number;
+      nominated_count: number;
+      rated_nominated_count: number;
+    }>(`
+      SELECT
+        u.id,
+        u.name,
+        u.email,
+        AVG(restaurant_ratings.average_rating) as average_rating,
+        COUNT(DISTINCT r.id) as nominated_count,
+        COUNT(DISTINCT restaurant_ratings.restaurant_id) as rated_nominated_count
+      FROM users u
+      INNER JOIN restaurants r ON u.id = r.nominated_by_user_id
+      LEFT JOIN (
+        SELECT
+          v.restaurant_id,
+          AVG(v.rating) as average_rating
+        FROM visits v
+        WHERE v.rating IS NOT NULL
+        GROUP BY v.restaurant_id
+      ) restaurant_ratings ON r.id = restaurant_ratings.restaurant_id
+      GROUP BY u.id, u.name, u.email
+      HAVING rated_nominated_count > 0
+      ORDER BY average_rating DESC
+    `);
+
     return {
       // Restaurant stats
       totalRestaurants: restaurantStats?.total || 0,
@@ -180,6 +281,11 @@ export class StatisticsService {
       topRatedRestaurants: topRated,
       mostActiveNominators: topNominators,
       mostActiveRaters: topRaters,
+
+      // Extended lists
+      restaurantLeaderboard,
+      userRatingAverages,
+      nominatorRestaurantAverages,
     };
   }
 }

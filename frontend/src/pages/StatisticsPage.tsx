@@ -272,6 +272,179 @@ export function StatisticsPage() {
             </div>
           </div>
         )}
+
+        {/* Full Restaurant Leaderboard */}
+        {stats.restaurantLeaderboard.length > 0 && (
+          <div>
+            <h2 className="text-xl font-bold text-gray-900 mb-4">Full Restaurant Leaderboard</h2>
+            <p className="text-gray-600 mb-4">All restaurants with ratings, sorted by average rating</p>
+            <div className="card overflow-hidden">
+              <div className="overflow-x-auto">
+                <table className="w-full">
+                  <thead className="bg-gray-50">
+                    <tr>
+                      <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        Rank
+                      </th>
+                      <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        Restaurant
+                      </th>
+                      <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        Status
+                      </th>
+                      <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        Average Rating
+                      </th>
+                      <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        # Ratings
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-gray-200">
+                    {stats.restaurantLeaderboard.map((restaurant, index) => (
+                      <tr key={restaurant.id} className="hover:bg-gray-50">
+                        <td className="px-4 py-3 whitespace-nowrap">
+                          <span className="text-lg font-bold text-gray-900">#{index + 1}</span>
+                        </td>
+                        <td className="px-4 py-3">
+                          <span className="font-medium text-gray-900">{restaurant.name}</span>
+                        </td>
+                        <td className="px-4 py-3 whitespace-nowrap">
+                          <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
+                            restaurant.state === 'visited' ? 'bg-purple-100 text-purple-800' :
+                            restaurant.state === 'active' ? 'bg-green-100 text-green-800' :
+                            restaurant.state === 'upcoming' ? 'bg-blue-100 text-blue-800' :
+                            'bg-yellow-100 text-yellow-800'
+                          }`}>
+                            {restaurant.state}
+                          </span>
+                        </td>
+                        <td className="px-4 py-3 whitespace-nowrap">
+                          <div className="flex items-center gap-1">
+                            <span className="text-yellow-500">★</span>
+                            <span className="font-bold">{restaurant.average_rating.toFixed(1)}</span>
+                            <span className="text-gray-500 text-sm">/ 10</span>
+                          </div>
+                        </td>
+                        <td className="px-4 py-3 whitespace-nowrap text-gray-600">
+                          {restaurant.rating_count}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* User Rating Averages */}
+        {stats.userRatingAverages.length > 0 && (
+          <div>
+            <h2 className="text-xl font-bold text-gray-900 mb-4">User Rating Averages</h2>
+            <p className="text-gray-600 mb-4">How generously each user rates restaurants</p>
+            <div className="card overflow-hidden">
+              <div className="overflow-x-auto">
+                <table className="w-full">
+                  <thead className="bg-gray-50">
+                    <tr>
+                      <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        Rank
+                      </th>
+                      <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        User
+                      </th>
+                      <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        Average Rating Given
+                      </th>
+                      <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        # Ratings
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-gray-200">
+                    {stats.userRatingAverages.map((user, index) => (
+                      <tr key={user.id} className="hover:bg-gray-50">
+                        <td className="px-4 py-3 whitespace-nowrap">
+                          <span className="text-lg font-bold text-gray-900">#{index + 1}</span>
+                        </td>
+                        <td className="px-4 py-3 whitespace-nowrap">
+                          <span className="font-medium text-gray-900">
+                            {user.name || user.email}
+                          </span>
+                        </td>
+                        <td className="px-4 py-3 whitespace-nowrap">
+                          <div className="flex items-center gap-1">
+                            <span className="text-yellow-500">★</span>
+                            <span className="font-bold">{user.average_rating.toFixed(1)}</span>
+                            <span className="text-gray-500 text-sm">/ 10</span>
+                          </div>
+                        </td>
+                        <td className="px-4 py-3 whitespace-nowrap text-gray-600">
+                          {user.rating_count}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Nominator Restaurant Averages */}
+        {stats.nominatorRestaurantAverages.length > 0 && (
+          <div>
+            <h2 className="text-xl font-bold text-gray-900 mb-4">Nominator Quality Ratings</h2>
+            <p className="text-gray-600 mb-4">Average rating of restaurants nominated by each user</p>
+            <div className="card overflow-hidden">
+              <div className="overflow-x-auto">
+                <table className="w-full">
+                  <thead className="bg-gray-50">
+                    <tr>
+                      <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        Rank
+                      </th>
+                      <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        User
+                      </th>
+                      <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        Avg Rating of Nominations
+                      </th>
+                      <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        Rated / Total
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-gray-200">
+                    {stats.nominatorRestaurantAverages.map((nominator, index) => (
+                      <tr key={nominator.id} className="hover:bg-gray-50">
+                        <td className="px-4 py-3 whitespace-nowrap">
+                          <span className="text-lg font-bold text-gray-900">#{index + 1}</span>
+                        </td>
+                        <td className="px-4 py-3 whitespace-nowrap">
+                          <span className="font-medium text-gray-900">
+                            {nominator.name || nominator.email}
+                          </span>
+                        </td>
+                        <td className="px-4 py-3 whitespace-nowrap">
+                          <div className="flex items-center gap-1">
+                            <span className="text-yellow-500">★</span>
+                            <span className="font-bold">{nominator.average_rating.toFixed(1)}</span>
+                            <span className="text-gray-500 text-sm">/ 10</span>
+                          </div>
+                        </td>
+                        <td className="px-4 py-3 whitespace-nowrap text-gray-600">
+                          {nominator.rated_nominated_count} / {nominator.nominated_count}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </Layout>
   );

@@ -159,4 +159,32 @@ export interface Statistics {
     email: string;
     rating_count: number;
   }>;
+
+  // Full leaderboard (all rated restaurants)
+  restaurantLeaderboard: Array<{
+    id: number;
+    name: string;
+    average_rating: number;
+    rating_count: number;
+    state: string;
+  }>;
+
+  // User rating averages
+  userRatingAverages: Array<{
+    id: number;
+    name: string | null;
+    email: string;
+    average_rating: number;
+    rating_count: number;
+  }>;
+
+  // Average rating of nominated restaurants per user
+  nominatorRestaurantAverages: Array<{
+    id: number;
+    name: string | null;
+    email: string;
+    average_rating: number;
+    nominated_count: number;
+    rated_nominated_count: number;
+  }>;
 }
