@@ -63,14 +63,14 @@ export interface Statistics {
     rating_count: number;
   }>;
 
-  // Average rating of nominated restaurants per user
+  // Average rating of nominated restaurants per user (visited only)
   nominatorRestaurantAverages: Array<{
     id: number;
     name: string | null;
     email: string;
     average_rating: number;
     nominated_count: number;
-    rated_nominated_count: number;
+    visited_nominated_count: number;
   }>;
 }
 
@@ -225,14 +225,14 @@ export class StatisticsService {
       ORDER BY average_rating DESC, rating_count DESC
     `);
 
-    // Average rating of nominated restaurants per user
+    // Average rating of nominated restaurants per user (visited only)
     const nominatorRestaurantAverages = await this.db.execute<{
       id: number;
       name: string | null;
       email: string;
       average_rating: number;
       nominated_count: number;
-      rated_nominated_count: number;
+      visited_nominated_count: number;
     }>(`
       SELECT
         u.id,
@@ -240,7 +240,7 @@ export class StatisticsService {
         u.email,
         AVG(restaurant_ratings.average_rating) as average_rating,
         COUNT(DISTINCT r.id) as nominated_count,
-        COUNT(DISTINCT restaurant_ratings.restaurant_id) as rated_nominated_count
+        COUNT(DISTINCT restaurant_ratings.restaurant_id) as visited_nominated_count
       FROM users u
       INNER JOIN restaurants r ON u.id = r.nominated_by_user_id
       LEFT JOIN (
@@ -250,9 +250,9 @@ export class StatisticsService {
         FROM visits v
         WHERE v.rating IS NOT NULL
         GROUP BY v.restaurant_id
-      ) restaurant_ratings ON r.id = restaurant_ratings.restaurant_id
+      ) restaurant_ratings ON r.id = restaurant_ratings.restaurant_id AND r.state = 'visited'
       GROUP BY u.id, u.name, u.email
-      HAVING rated_nominated_count > 0
+      HAVING visited_nominated_count > 0
       ORDER BY average_rating DESC
     `);
 

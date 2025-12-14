@@ -396,7 +396,7 @@ export function StatisticsPage() {
         {stats.nominatorRestaurantAverages.length > 0 && (
           <div>
             <h2 className="text-xl font-bold text-gray-900 mb-4">Nominator Quality Ratings</h2>
-            <p className="text-gray-600 mb-4">Average rating of restaurants nominated by each user</p>
+            <p className="text-gray-600 mb-4">Average rating of visited restaurants nominated by each user</p>
             <div className="card overflow-hidden">
               <div className="overflow-x-auto">
                 <table className="w-full">
@@ -409,10 +409,10 @@ export function StatisticsPage() {
                         User
                       </th>
                       <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Avg Rating of Nominations
+                        Avg Rating of Visited Nominations
                       </th>
                       <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Rated / Total
+                        Visited / Total
                       </th>
                     </tr>
                   </thead>
@@ -435,7 +435,7 @@ export function StatisticsPage() {
                           </div>
                         </td>
                         <td className="px-4 py-3 whitespace-nowrap text-gray-600">
-                          {nominator.rated_nominated_count} / {nominator.nominated_count}
+                          {nominator.visited_nominated_count} / {nominator.nominated_count}
                         </td>
                       </tr>
                     ))}

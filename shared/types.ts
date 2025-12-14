@@ -178,13 +178,13 @@ export interface Statistics {
     rating_count: number;
   }>;
 
-  // Average rating of nominated restaurants per user
+  // Average rating of nominated restaurants per user (visited only)
   nominatorRestaurantAverages: Array<{
     id: number;
     name: string | null;
     email: string;
     average_rating: number;
     nominated_count: number;
-    rated_nominated_count: number;
+    visited_nominated_count: number;
   }>;
 }
