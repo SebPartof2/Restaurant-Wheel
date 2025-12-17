@@ -32,7 +32,7 @@ export function LoginPage() {
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-primary to-primary-light">
       <div className="card w-full max-w-md">
         <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold text-primary mb-2">🎡 The Wheel - Chesterton Edition</h1>
+          <h1 className="text-4xl font-bold text-primary mb-2">🎡 The Wheel</h1>
           <p className="text-gray-600">Sign in to your account</p>
         </div>
 
