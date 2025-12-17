@@ -32,7 +32,7 @@ export function Header() {
       <div className="container mx-auto px-4 py-4">
         <div className="flex items-center justify-between">
           <Link to="/dashboard" className="flex items-center space-x-2">
-            <div className="text-2xl font-bold">🎡 The Wheel</div>
+            <div className="text-2xl font-bold">🎡 The Wheel - Chesterton Edition</div>
           </Link>
 
           {user && (

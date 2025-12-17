@@ -95,7 +95,7 @@ export function WheelPage() {
     <Layout>
       <div className="max-w-4xl mx-auto space-y-8">
         <div className="text-center">
-          <h1 className="text-4xl font-bold text-gray-900 mb-2">🎡 The Wheel</h1>
+          <h1 className="text-4xl font-bold text-gray-900 mb-2">🎡 The Wheel - Chesterton Edition</h1>
           <p className="text-gray-600">Spin the wheel to pick your next restaurant!</p>
         </div>
 
