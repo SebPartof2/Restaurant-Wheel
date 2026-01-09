@@ -1,106 +1,104 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
 
-@layer base {
-  :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
-    --primary: 221.2 83.2 53.3%; /* Navy blue */
-    --primary-foreground: 210 40% 98%;
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 221.2 83.2 53.3%;
-    --radius: 0.5rem;
+@theme {
+  /* Navy color palette */
+  --color-navy-50: #f0f4fc;
+  --color-navy-100: #dce5f8;
+  --color-navy-200: #c0d1f3;
+  --color-navy-300: #95b3eb;
+  --color-navy-400: #638ce0;
+  --color-navy-500: #4270d5;
+  --color-navy-600: #2f55c9;
+  --color-navy-700: #2743b8;
+  --color-navy-800: #253a96;
+  --color-navy-900: #1e3a8a;
+  --color-navy-950: #182555;
 
-    /* Glassmorphism variables */
-    --glass-background: rgba(255, 255, 255, 0.25);
-    --glass-border: rgba(255, 255, 255, 0.18);
-    --glass-shadow: rgba(31, 38, 135, 0.15);
-  }
+  /* Primary color (navy) */
+  --color-primary: var(--color-navy-900);
 
-  .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
-    --primary: 210 40% 98%;
-    --primary-foreground: 222.2 47.4% 11.2%;
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 212.7 26.8% 83.9%;
-  }
+  /* Glassmorphism shadows */
+  --shadow-glass: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
+  --shadow-glass-lg: 0 8px 32px 0 rgba(31, 38, 135, 0.25);
+
+  /* Border radius */
+  --radius: 0.5rem;
+  --radius-lg: var(--radius);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-sm: calc(var(--radius) - 4px);
+
+  /* Backdrop blur */
+  --backdrop-blur-xs: 2px;
+
+  /* Font family */
+  --font-sans: Inter, system-ui, -apple-system, sans-serif;
 }
 
-@layer base {
-  * {
-    @apply border-border;
-  }
-
-  body {
-    @apply bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50;
-    @apply min-h-screen font-sans antialiased;
-    @apply text-foreground;
-  }
+* {
+  border-color: rgb(214 214 214 / 0.5);
 }
 
-@layer components {
-  /* Glassmorphism card styles */
-  .glass-card {
-    @apply bg-white/25 backdrop-blur-md;
-    @apply border border-white/18;
-    @apply shadow-glass rounded-2xl;
-  }
+body {
+  background: linear-gradient(135deg, rgb(239 246 255) 0%, rgb(224 231 255) 50%, rgb(243 232 255) 100%);
+  min-height: 100vh;
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  color: rgb(31 41 55);
+}
 
-  .glass-card-hover {
-    @apply glass-card;
-    @apply transition-all duration-300;
-    @apply hover:bg-white/35 hover:shadow-glass-lg;
-    @apply hover:scale-[1.02];
-  }
+/* Glassmorphism card styles */
+.glass-card {
+  background-color: rgb(255 255 255 / 0.25);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgb(255 255 255 / 0.18);
+  box-shadow: var(--shadow-glass);
+  border-radius: 1rem;
+}
 
-  /* Glassmorphism navigation */
-  .glass-nav {
-    @apply bg-white/40 backdrop-blur-lg;
-    @apply border-b border-white/20;
-    @apply shadow-sm;
-  }
+.glass-card-hover {
+  background-color: rgb(255 255 255 / 0.25);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgb(255 255 255 / 0.18);
+  box-shadow: var(--shadow-glass);
+  border-radius: 1rem;
+  transition: all 300ms;
+}
 
-  /* Glassmorphism button */
-  .glass-button {
-    @apply bg-white/20 backdrop-blur-sm;
-    @apply border border-white/30;
-    @apply hover:bg-white/30;
-    @apply transition-all duration-200;
-  }
+.glass-card-hover:hover {
+  background-color: rgb(255 255 255 / 0.35);
+  box-shadow: var(--shadow-glass-lg);
+  transform: scale(1.02);
+}
 
-  /* Glassmorphism input */
-  .glass-input {
-    @apply bg-white/30 backdrop-blur-sm;
-    @apply border border-white/30;
-    @apply focus:bg-white/40;
-    @apply transition-all duration-200;
-  }
+/* Glassmorphism navigation */
+.glass-nav {
+  background-color: rgb(255 255 255 / 0.4);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgb(255 255 255 / 0.2);
+  box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1);
+}
+
+/* Glassmorphism button */
+.glass-button {
+  background-color: rgb(255 255 255 / 0.2);
+  backdrop-filter: blur(4px);
+  border: 1px solid rgb(255 255 255 / 0.3);
+  transition: all 200ms;
+}
+
+.glass-button:hover {
+  background-color: rgb(255 255 255 / 0.3);
+}
+
+/* Glassmorphism input */
+.glass-input {
+  background-color: rgb(255 255 255 / 0.3);
+  backdrop-filter: blur(4px);
+  border: 1px solid rgb(255 255 255 / 0.3);
+  transition: all 200ms;
+}
+
+.glass-input:focus {
+  background-color: rgb(255 255 255 / 0.4);
 }

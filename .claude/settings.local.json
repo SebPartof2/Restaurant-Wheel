@@ -11,7 +11,9 @@
       "Bash(npm install)",
       "Bash(npm install:*)",
       "Bash(npx tailwindcss:*)",
-      "Bash(wrangler d1 export:*)"
+      "Bash(wrangler d1 export:*)",
+      "Bash(npm run build:*)",
+      "Bash(timeout 10 npm run dev:*)"
     ]
   }
 }
