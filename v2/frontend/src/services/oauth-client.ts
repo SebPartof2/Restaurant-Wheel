@@ -10,48 +10,7 @@ export class OAuth2Client {
     this.apiUrl = apiUrl;
   }
 
-  /**
-   * Generate random string for code verifier
-   */
-  private generateRandomString(length: number): string {
-    const array = new Uint8Array(length);
-    crypto.getRandomValues(array);
-    return this.base64URLEncode(array);
-  }
-
-  /**
-   * Base64URL encoding (RFC 7636)
-   */
-  private base64URLEncode(buffer: Uint8Array): string {
-    const base64 = btoa(String.fromCharCode(...buffer));
-    return base64
-      .replace(/\+/g, '-')
-      .replace(/\//g, '_')
-      .replace(/=/g, '');
-  }
-
-  /**
-   * Generate SHA256 hash
-   */
-  private async sha256(plain: string): Promise<ArrayBuffer> {
-    const encoder = new TextEncoder();
-    const data = encoder.encode(plain);
-    return await crypto.subtle.digest('SHA-256', data);
-  }
-
-  /**
-   * Generate PKCE code verifier and challenge
-   */
-  private async generatePKCE(): Promise<{ codeVerifier: string; codeChallenge: string }> {
-    // Generate code verifier (43-128 chars)
-    const codeVerifier = this.generateRandomString(32);
-
-    // Generate code challenge: Base64URL(SHA256(code_verifier))
-    const hashed = await this.sha256(codeVerifier);
-    const codeChallenge = this.base64URLEncode(new Uint8Array(hashed));
-
-    return { codeVerifier, codeChallenge };
-  }
+  // Note: PKCE is handled by the backend
 
   /**
    * Initiate OAuth2 login flow
@@ -82,7 +41,7 @@ export class OAuth2Client {
    * Handle OAuth2 callback (called on callback page)
    * This is handled by the backend, but we provide this for context
    */
-  async handleCallback(code: string, state: string): Promise<void> {
+  async handleCallback(_code: string, _state: string): Promise<void> {
     // The backend handles the callback via GET /auth/oauth/callback
     // After successful authentication, backend redirects to frontend home page
     // with session cookie set
