@@ -25,4 +25,4 @@ OAUTH_AUTHORIZATION_ENDPOINT = "https://auth.sebbyk.net/authorize"
 OAUTH_TOKEN_ENDPOINT = "https://auth.sebbyk.net/token"
 OAUTH_USERINFO_ENDPOINT = "https://auth.sebbyk.net/userinfo"
 OAUTH_CLIENT_ID = "cli_e96035f611408bb60ec01e5fc7bcdaf1" # Update with actual client ID from S-Auth
-OAUTH_REDIRECT_URI = "https://wheel-api.sebbyk.net/auth/oauth/callback"
+OAUTH_REDIRECT_URI = "https://wheel-api.sebbyk.net/api/auth/oauth/callback"
