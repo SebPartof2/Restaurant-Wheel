@@ -6,7 +6,7 @@ import type { OAuth2LoginResponse, User } from '../../../shared/types';
 export class OAuth2Client {
   private apiUrl: string;
 
-  constructor(apiUrl: string = '/api') {
+  constructor(apiUrl: string = import.meta.env.VITE_API_URL || '/api') {
     this.apiUrl = apiUrl;
   }
 
