@@ -1,38 +1,11 @@
 import { useAuth } from '../contexts/AuthContext';
+import { Layout } from '../components/layout/Layout';
 
 export function DashboardPage() {
-  const { user, logout } = useAuth();
+  const { user } = useAuth();
 
   return (
-    <div className="min-h-screen p-8">
-      {/* Header */}
-      <header className="glass-nav fixed top-0 left-0 right-0 z-40 px-8 py-4">
-        <div className="max-w-7xl mx-auto flex items-center justify-between">
-          <h1 className="text-2xl font-bold text-navy-900">The Wheel v2</h1>
-          <nav className="flex items-center gap-4">
-            <span className="text-sm text-gray-600">
-              Welcome, {user?.given_name || user?.name || user?.email}!
-            </span>
-            {user?.is_admin && (
-              <a
-                href="/admin/users"
-                className="glass-button px-4 py-2 rounded-lg font-medium"
-              >
-                Admin
-              </a>
-            )}
-            <button
-              onClick={logout}
-              className="bg-navy-900 text-white px-4 py-2 rounded-lg font-medium hover:bg-navy-800 transition-colors"
-            >
-              Logout
-            </button>
-          </nav>
-        </div>
-      </header>
-
-      {/* Main Content */}
-      <main className="max-w-7xl mx-auto mt-24">
+    <Layout>
         {/* Hero Section */}
         <div className="glass-card p-8 mb-8">
           <h2 className="text-4xl font-bold mb-4">Welcome to The Wheel v2</h2>
@@ -137,7 +110,6 @@ export function DashboardPage() {
             </div>
           </div>
         </div>
-      </main>
-    </div>
+    </Layout>
   );
 }

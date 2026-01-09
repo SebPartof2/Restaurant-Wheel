@@ -3,14 +3,20 @@
 export type RestaurantState = 'pending' | 'active' | 'upcoming' | 'visited';
 
 export interface User {
-  id: number;
+  id?: number;
   email: string;
   name?: string;
+  given_name?: string;
+  family_name?: string;
+  oauth_provider?: string;
+  oauth_subject?: string;
+  access_level?: string;
   is_admin: boolean;
   is_whitelisted: boolean;
   is_provisional: boolean;
   signup_code?: string;
-  created_at: string;
+  last_login?: string;
+  created_at?: string;
 }
 
 export interface Restaurant {
@@ -69,6 +75,11 @@ export interface LoginRequest {
 export interface AuthResponse {
   user: User;
   session_id: string;
+}
+
+export interface OAuth2LoginResponse {
+  authorization_url: string;
+  state: string;
 }
 
 export interface CreateRestaurantRequest {
@@ -187,4 +198,37 @@ export interface Statistics {
     nominated_count: number;
     visited_nominated_count: number;
   }>;
+}
+
+// Photo types
+export interface RestaurantPhoto {
+  id: number;
+  restaurant_id: number;
+  filename: string;
+  original_url: string;
+  thumbnail_url: string | null;
+  mime_type: string;
+  file_size: number;
+  width: number | null;
+  height: number | null;
+  uploaded_by_user_id: number;
+  is_primary: boolean;
+  display_order: number;
+  caption: string | null;
+  created_at: string;
+  uploaded_by?: User; // Optional populated field
+}
+
+// Alias for compatibility
+export type Photo = RestaurantPhoto;
+
+// Spin wheel result type
+export type SpinResult = SpinWheelResponse;
+
+// Generic paginated response
+export interface PaginatedResponse<T> {
+  data: T[];
+  total: number;
+  limit: number;
+  offset: number;
 }
