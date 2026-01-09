@@ -1,0 +1,211 @@
+PRAGMA defer_foreign_keys=TRUE;
+CREATE TABLE restaurants (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  name TEXT NOT NULL,
+  address TEXT NOT NULL,
+  is_fast_food BOOLEAN DEFAULT 0,
+  menu_link TEXT,
+  photo_link TEXT,
+  state TEXT DEFAULT 'pending' CHECK(state IN ('pending', 'active', 'upcoming', 'visited')),
+  nominated_by_user_id INTEGER NOT NULL,
+  created_by_admin_id INTEGER,
+  average_rating REAL DEFAULT 0,
+  created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+  updated_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+  visited_at DATETIME, reservation_datetime DATETIME,
+  FOREIGN KEY (nominated_by_user_id) REFERENCES users(id),
+  FOREIGN KEY (created_by_admin_id) REFERENCES users(id)
+);
+INSERT INTO "restaurants" VALUES(1,'The Smith','400 N Clark St, Chicago, IL 60654',0,'https://thesmithrestaurant.com/location/chicago/#menu_select-menu-below',NULL,'visited',2,1,8.5,'2025-12-13 20:21:52','2025-12-14 00:07:53','2025-12-14 00:00:00','2025-12-13 16:45:00');
+INSERT INTO "restaurants" VALUES(2,'Al Bawadi Grill','8501 W Dempster St, Niles, IL 60714',0,NULL,NULL,'upcoming',2,1,0,'2025-12-13 20:34:16','2026-01-03 23:53:49',NULL,NULL);
+INSERT INTO "restaurants" VALUES(3,'Au Cheval','800 W Randolph St, Chicago, IL 60607',0,NULL,NULL,'active',1,NULL,0,'2025-12-13 20:34:42','2025-12-13 22:08:27',NULL,NULL);
+INSERT INTO "restaurants" VALUES(4,'Applebees','6656 W. Grand Avenue, Chicago, IL 60707',0,NULL,NULL,'active',4,1,0,'2025-12-13 20:37:48','2025-12-13 22:08:25',NULL,NULL);
+INSERT INTO "restaurants" VALUES(8,'Maharaj Indian Grill','3400 River Rd, Franklin Park, IL 60131',0,NULL,NULL,'active',2,NULL,0,'2025-12-13 21:07:28','2025-12-13 22:33:19',NULL,NULL);
+INSERT INTO "restaurants" VALUES(9,'Alejandra’s','400 E North Ave, Northlake, IL 60164',0,NULL,NULL,'active',2,NULL,0,'2025-12-13 21:07:57','2025-12-13 22:08:23',NULL,NULL);
+INSERT INTO "restaurants" VALUES(10,'Burger King','6701 W Roosevelt Rd, Berwyn, IL 60402',1,NULL,NULL,'active',4,1,0,'2025-12-13 21:08:59','2025-12-13 22:08:29',NULL,NULL);
+INSERT INTO "restaurants" VALUES(11,'Butcher & The Burger','1021 W Armitage Ave, Chicago, IL 60614',0,NULL,NULL,'active',2,1,0,'2025-12-13 21:12:15','2025-12-13 22:08:30',NULL,NULL);
+INSERT INTO "restaurants" VALUES(12,'Chef Ping','1755 W Algonquin Rd, Rolling Meadows, IL 60008',0,NULL,NULL,'active',2,1,0,'2025-12-13 21:14:51','2025-12-13 22:08:43',NULL,NULL);
+INSERT INTO "restaurants" VALUES(13,'CHICAGO RAMEN','578 E Oakton St, Des Plaines, IL 60018',0,'https://chicago-ramen.us/collections',NULL,'visited',1,NULL,8.75,'2025-12-13 21:16:07','2025-12-24 00:45:22','2025-12-24 00:00:00',NULL);
+INSERT INTO "restaurants" VALUES(14,'Chili''s Grill & Bar','915 W North Ave, Melrose Park, IL 60160',0,NULL,NULL,'active',4,1,0,'2025-12-13 21:16:54','2025-12-13 22:08:46',NULL,NULL);
+INSERT INTO "restaurants" VALUES(15,'Chipotle Mexican Grill','500 W North Ave, Melrose Park, IL 60160',1,NULL,NULL,'active',1,NULL,0,'2025-12-13 21:20:42','2025-12-13 22:08:49',NULL,NULL);
+INSERT INTO "restaurants" VALUES(16,'Community Tavern','4038 N Milwaukee Ave, Chicago, IL 60641',0,NULL,NULL,'active',2,1,0,'2025-12-13 21:21:41','2025-12-13 22:08:51',NULL,NULL);
+INSERT INTO "restaurants" VALUES(17,'Gibsons Bar & Steakhouse','5464 N River Rd, Rosemont, IL 60018',0,NULL,NULL,'active',1,NULL,0,'2025-12-13 21:22:43','2025-12-13 22:08:52',NULL,NULL);
+INSERT INTO "restaurants" VALUES(18,'Greek Islands','200 S Halsted St, Chicago, IL 60661',0,NULL,NULL,'active',2,1,0,'2025-12-13 21:24:32','2025-12-13 22:08:54',NULL,NULL);
+INSERT INTO "restaurants" VALUES(20,'The Hampton Social - River North','353 W Hubbard St, Chicago, IL 60654',0,NULL,NULL,'active',2,1,0,'2025-12-13 21:26:24','2025-12-13 22:10:26',NULL,NULL);
+INSERT INTO "restaurants" VALUES(21,'Harry Caray''s Italian Steakhouse','33 W Kinzie St, Chicago, IL 60654',0,NULL,NULL,'active',1,NULL,0,'2025-12-13 21:26:45','2025-12-13 22:08:55',NULL,NULL);
+INSERT INTO "restaurants" VALUES(22,'Hoja Santa','722 Lake St, Oak Park, IL 60301',0,NULL,NULL,'active',2,1,0,'2025-12-13 21:27:32','2025-12-13 22:08:57',NULL,NULL);
+INSERT INTO "restaurants" VALUES(23,'IHOP','1040 W North Ave, Winston Plaza, Melrose Park, IL 60160',1,NULL,NULL,'active',4,1,0,'2025-12-13 21:27:59','2025-12-13 22:08:58',NULL,NULL);
+INSERT INTO "restaurants" VALUES(24,'Kettlestrings Tavern','800 S Oak Park Ave, Oak Park, IL 60304',0,NULL,NULL,'active',1,NULL,0,'2025-12-13 21:28:26','2025-12-13 22:09:00',NULL,NULL);
+INSERT INTO "restaurants" VALUES(25,'336 Korean BBQ','8357 W Golf Rd, Niles, IL 60714',0,NULL,NULL,'active',2,1,0,'2025-12-13 21:29:21','2025-12-13 22:08:17',NULL,NULL);
+INSERT INTO "restaurants" VALUES(26,'Kyuramen - Oak Park','118 N Marion St, Oak Park, IL 60301',1,NULL,NULL,'active',1,NULL,0,'2025-12-13 21:30:16','2025-12-13 22:09:01',NULL,NULL);
+INSERT INTO "restaurants" VALUES(27,'Little Bad Wolf','1541 W Bryn Mawr Ave, Chicago, IL 60660',0,NULL,NULL,'active',2,1,0,'2025-12-13 21:30:45','2025-12-13 22:09:03',NULL,NULL);
+INSERT INTO "restaurants" VALUES(28,'Little Goat Diner','3325 N Southport Ave, Chicago, IL 60657',0,NULL,NULL,'active',2,1,0,'2025-12-13 21:31:20','2025-12-13 22:09:07',NULL,NULL);
+INSERT INTO "restaurants" VALUES(29,'McDonald''s','11 N 1st Ave, Maywood, IL 60153',1,NULL,NULL,'active',4,1,0,'2025-12-13 21:32:09','2025-12-13 22:09:08',NULL,NULL);
+INSERT INTO "restaurants" VALUES(30,'McDonald’s (HQ)','110 N Carpenter St, Chicago, IL 60607',0,NULL,NULL,'active',2,1,0,'2025-12-13 21:32:54','2025-12-13 22:10:09',NULL,NULL);
+INSERT INTO "restaurants" VALUES(31,'The Momo World','727 W Maxwell St, Chicago, IL 60607',0,NULL,NULL,'active',2,1,0,'2025-12-13 21:33:51','2025-12-13 22:10:27',NULL,NULL);
+INSERT INTO "restaurants" VALUES(32,'New Star Restaurant','7444 W North Ave, Elmwood Park, IL 60707',0,NULL,NULL,'active',1,NULL,0,'2025-12-13 21:34:54','2025-12-13 22:10:10',NULL,NULL);
+INSERT INTO "restaurants" VALUES(33,'Olive Garden Italian Restaurant','1315 W North Ave, Melrose Park, IL 60160',0,NULL,NULL,'active',4,1,0,'2025-12-13 21:37:30','2025-12-13 22:10:11',NULL,NULL);
+INSERT INTO "restaurants" VALUES(34,'Petite Vie Brasserie','909 Burlington Ave, Western Springs, IL 60558',0,NULL,NULL,'active',2,1,0,'2025-12-13 21:38:03','2026-01-03 23:52:27',NULL,NULL);
+INSERT INTO "restaurants" VALUES(35,'Popeyes Louisiana Kitchen','610 Madison St, Oak Park, IL 60302',1,NULL,NULL,'active',4,1,0,'2025-12-13 21:40:00','2025-12-13 22:10:14',NULL,NULL);
+INSERT INTO "restaurants" VALUES(36,'RAMEN-SAN','59 W Hubbard St #2, Chicago, IL 60654',0,NULL,NULL,'active',1,NULL,0,'2025-12-13 21:40:36','2025-12-13 22:10:18',NULL,NULL);
+INSERT INTO "restaurants" VALUES(37,'Rustico','155 S Oak Park Ave, Oak Park, IL 60302',0,NULL,NULL,'active',2,1,0,'2025-12-13 21:41:43','2025-12-13 22:10:20',NULL,NULL);
+INSERT INTO "restaurants" VALUES(38,'SEN Sushi Bar','814 S Oak Park Ave, Oak Park, IL 60304',0,NULL,NULL,'active',2,1,0,'2025-12-13 21:43:54','2025-12-13 22:10:21',NULL,NULL);
+INSERT INTO "restaurants" VALUES(39,'Smoque BBQ','3800 N Pulaski Rd, Chicago, IL 60641',0,'https://smoquebbq.com/locations/smoque/#menu',NULL,'visited',2,1,7.625,'2025-12-13 21:44:25','2026-01-03 23:43:39','2026-01-03 00:00:00',NULL);
+INSERT INTO "restaurants" VALUES(40,'Subway','8345 W North Ave Store 1-7A, Melrose Park, IL 60160',1,NULL,NULL,'active',4,1,0,'2025-12-13 21:44:55','2025-12-13 22:10:23',NULL,NULL);
+INSERT INTO "restaurants" VALUES(41,'sweetgreen','1143 Lake St, Oak Park, IL 60301',0,NULL,NULL,'active',1,NULL,0,'2025-12-13 21:45:22','2025-12-13 22:10:24',NULL,NULL);
+INSERT INTO "restaurants" VALUES(42,'Texas Roadhouse','701 109th Pl, Crown Point, IN 46307',0,NULL,NULL,'active',2,1,0,'2025-12-13 21:46:48','2025-12-13 22:10:25',NULL,NULL);
+INSERT INTO "restaurants" VALUES(43,'Victory Italian','100 S Marion St, Oak Park, IL 60302',0,NULL,NULL,'active',2,1,0,'2025-12-13 21:47:14','2025-12-13 22:10:28',NULL,NULL);
+INSERT INTO "restaurants" VALUES(44,'Wingstop','1740 Harlem Ave, Elmwood Park, IL 60707',1,NULL,NULL,'active',2,1,0,'2025-12-13 21:48:55','2025-12-13 22:10:30',NULL,NULL);
+INSERT INTO "restaurants" VALUES(45,'Katy''s Dumplings - Oak Park','1113 Lake St, Oak Park, IL 60301',0,NULL,NULL,'active',3,1,0,'2025-12-13 22:12:58','2025-12-13 22:20:59',NULL,NULL);
+INSERT INTO "restaurants" VALUES(46,'Yum Thai','7330 Madison St, Forest Park, IL 60130',0,NULL,NULL,'active',3,1,0,'2025-12-13 22:13:48','2025-12-13 22:21:06',NULL,NULL);
+INSERT INTO "restaurants" VALUES(47,'Sepia','123 N Jefferson St, Chicago, IL 60661',0,NULL,NULL,'active',1,NULL,0,'2025-12-13 22:15:05','2025-12-13 22:21:05',NULL,NULL);
+INSERT INTO "restaurants" VALUES(48,'Haidilao HotPot Chicago Inc','107 E Cermak Rd, Chicago, IL 60616',0,NULL,NULL,'active',1,NULL,0,'2025-12-13 22:16:22','2025-12-13 22:20:39',NULL,NULL);
+INSERT INTO "restaurants" VALUES(49,'Oliver’s','1639 S Wabash Ave, Chicago, IL 60616',0,NULL,NULL,'active',2,NULL,0,'2025-12-13 22:19:28','2025-12-13 22:36:11',NULL,NULL);
+INSERT INTO "restaurants" VALUES(50,'Boston Fish Market Inc','1225 Forest Ave, Des Plaines, IL 60018',0,NULL,NULL,'active',2,NULL,0,'2025-12-13 22:20:21','2025-12-13 22:23:23',NULL,NULL);
+INSERT INTO "restaurants" VALUES(51,'HaiSous Vietnamese Kitchen','1800 S Carpenter St, Chicago, IL 60608',0,NULL,NULL,'active',2,NULL,0,'2025-12-13 22:20:42','2025-12-13 22:33:16',NULL,NULL);
+INSERT INTO "restaurants" VALUES(52,'Honey Butter Fried Chicken','3361 N Elston Ave, Chicago, IL 60618',0,NULL,NULL,'active',4,1,0,'2025-12-13 22:24:38','2025-12-13 22:25:28',NULL,NULL);
+INSERT INTO "restaurants" VALUES(53,'Sanders BBQ Supply Co.','1742 W 99th St, Chicago, IL 60643',0,NULL,NULL,'active',2,NULL,0,'2025-12-13 22:25:03','2025-12-13 22:36:12',NULL,NULL);
+INSERT INTO "restaurants" VALUES(54,'Dunkin''','7660 Madison St, Forest Park, IL 60130',1,NULL,NULL,'active',4,1,0,'2025-12-13 22:27:06','2025-12-13 22:28:07',NULL,NULL);
+INSERT INTO "restaurants" VALUES(55,'Portillo''s','170 North Ave, Northlake, IL 60164',0,NULL,NULL,'active',1,NULL,0,'2025-12-13 22:27:54','2025-12-13 22:28:12',NULL,NULL);
+INSERT INTO "restaurants" VALUES(56,'Lao Der','3922 N Elston Ave, Chicago, IL 60618',0,NULL,NULL,'active',2,NULL,0,'2025-12-13 22:29:24','2025-12-13 22:33:17',NULL,NULL);
+INSERT INTO "restaurants" VALUES(57,'Raising Cane''s Chicken Fingers','300 W North Ave, Melrose Park, IL 60160',1,NULL,NULL,'visited',4,1,6.45,'2025-12-14 00:21:33','2025-12-14 01:29:32','2025-12-14 01:29:32',NULL);
+INSERT INTO "restaurants" VALUES(58,'Gordon Ramsay Burger - Chicago','2 E Ontario St, Chicago, IL 60611',0,NULL,NULL,'active',1,NULL,0,'2025-12-14 00:23:37','2025-12-14 00:24:13',NULL,NULL);
+INSERT INTO "restaurants" VALUES(59,'Citrine Café','100 S Oak Park Ave, Oak Park, IL 60302',0,NULL,NULL,'visited',3,1,7.875,'2025-12-14 00:28:20','2025-12-14 01:29:12','2025-12-14 01:29:12',NULL);
+INSERT INTO "restaurants" VALUES(60,'Ina Mae','1415 N Wood St, Chicago, IL 60622',0,NULL,NULL,'visited',1,1,8.35,'2025-12-14 01:21:12','2025-12-14 01:28:31','2025-12-14 01:28:31',NULL);
+INSERT INTO "restaurants" VALUES(61,'Chick-fil-A','2 Winston Plaza, Melrose Park, IL 60160',1,NULL,NULL,'visited',4,1,7.475,'2025-12-14 01:22:24','2025-12-14 01:29:22','2025-12-14 01:29:22',NULL);
+INSERT INTO "restaurants" VALUES(62,'Taverna on Division','1707 Division St, Melrose Park, IL 60160',0,NULL,NULL,'visited',2,1,5.25,'2025-12-14 01:23:38','2025-12-14 01:29:41','2025-12-14 01:29:41',NULL);
+INSERT INTO "restaurants" VALUES(63,'Maria''s','1905 N Harlem Ave, Chicago, IL 60707',0,NULL,NULL,'visited',2,1,8.25,'2025-12-14 01:24:07','2025-12-14 01:29:02','2025-12-14 01:29:02',NULL);
+INSERT INTO "restaurants" VALUES(64,'Crepas Culichi','1101 Lake St, Oak Park, IL 60301',0,NULL,NULL,'visited',2,1,4.025,'2025-12-14 01:24:33','2025-12-14 01:30:55','2025-12-14 01:30:55',NULL);
+INSERT INTO "restaurants" VALUES(65,'Bayan Ko Diner','1820 W Montrose Ave, Chicago, IL 60613',0,NULL,NULL,'visited',2,1,8.425,'2025-12-14 01:25:03','2025-12-14 01:28:24','2025-12-14 01:28:24',NULL);
+INSERT INTO "restaurants" VALUES(66,'Gyuro Ramen','171 N Aberdeen St, Chicago, IL 60607',0,NULL,NULL,'visited',1,NULL,8.25,'2025-12-14 01:25:28','2025-12-14 01:28:39','2025-12-14 01:28:39',NULL);
+INSERT INTO "restaurants" VALUES(67,'Wendy''s','11 N Harlem Ave, Oak Park, IL 60302',1,NULL,NULL,'visited',4,1,4.75,'2025-12-14 01:26:02','2025-12-14 01:30:30','2025-12-14 01:30:30',NULL);
+INSERT INTO "restaurants" VALUES(68,'Bistro Monadnock','325 S Federal St, Chicago, IL 60604',0,NULL,NULL,'visited',1,NULL,8.75,'2025-12-14 01:26:34','2025-12-14 01:28:12','2025-12-14 01:28:12',NULL);
+INSERT INTO "restaurants" VALUES(69,'Akahoshi Ramen','2340 N California Ave Suite B, Chicago, IL 60647',0,NULL,NULL,'visited',1,NULL,6,'2025-12-14 01:27:29','2025-12-14 01:31:04','2025-12-14 01:31:04',NULL);
+CREATE TABLE sessions (
+  id TEXT PRIMARY KEY,
+  user_id INTEGER NOT NULL,
+  expires_at DATETIME NOT NULL,
+  created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+);
+INSERT INTO "sessions" VALUES('e7b13a21-6d3e-41f4-bb72-8eba45a07969',1,'2026-01-12 20:00:08.194','2025-12-13 20:00:08');
+INSERT INTO "sessions" VALUES('185c4f47-7353-44b5-a0c7-4c1143f0c6ac',1,'2026-01-12 20:05:05.970','2025-12-13 20:05:05');
+INSERT INTO "sessions" VALUES('1d878184-4a6b-4c28-99ec-4a4f59c3816e',1,'2026-01-12 20:14:25.677','2025-12-13 20:14:25');
+INSERT INTO "sessions" VALUES('697ea932-65e2-4edd-99c3-b1b60419a733',1,'2026-01-12 20:25:08.828','2025-12-13 20:25:08');
+INSERT INTO "sessions" VALUES('1ad6b0c2-54d4-43c7-8118-6b6a174947d1',2,'2026-01-12 20:31:19.308','2025-12-13 20:31:19');
+INSERT INTO "sessions" VALUES('45ec314f-6aa3-4eba-82d8-2019344dae6f',2,'2026-01-12 20:38:24.332','2025-12-13 20:38:24');
+INSERT INTO "sessions" VALUES('51446949-77cd-43b0-8973-d393aa91970f',1,'2026-01-12 20:43:36.776','2025-12-13 20:43:36');
+INSERT INTO "sessions" VALUES('904fc8ef-1621-4d10-adf9-ad1f57d4e96d',1,'2026-01-12 20:44:55.370','2025-12-13 20:44:55');
+INSERT INTO "sessions" VALUES('6fa2655c-f48b-43cf-ac69-682a974c84e3',1,'2026-01-12 20:55:07.556','2025-12-13 20:55:07');
+INSERT INTO "sessions" VALUES('dee63bd6-4562-444b-b746-c5bdb2a048db',1,'2026-01-12 21:05:10.421','2025-12-13 21:05:10');
+INSERT INTO "sessions" VALUES('09e2ab19-f7d4-4755-836f-8a8dc7641722',1,'2026-01-12 21:05:19.790','2025-12-13 21:05:19');
+INSERT INTO "sessions" VALUES('e182c4b4-e8df-4446-9216-5958def21d5c',1,'2026-01-12 21:06:38.678','2025-12-13 21:06:38');
+INSERT INTO "sessions" VALUES('eb53f7bd-e45b-429e-a6c2-a23682d2946a',2,'2026-01-12 21:07:06.049','2025-12-13 21:07:06');
+INSERT INTO "sessions" VALUES('30d3afd2-7e27-45f8-be69-2ccca3104030',1,'2026-01-12 22:09:59.499','2025-12-13 22:09:59');
+INSERT INTO "sessions" VALUES('23372568-f783-4a0f-8e09-44ef8b2ce974',1,'2026-01-15 04:18:00.142','2025-12-16 04:18:00');
+INSERT INTO "sessions" VALUES('9ec41575-03ff-45c0-bff7-4e536e655d12',3,'2026-01-16 01:00:00.251','2025-12-17 01:00:00');
+INSERT INTO "sessions" VALUES('01b44c56-c0d3-4664-a720-8fe07d095d89',1,'2026-01-16 02:12:10.546','2025-12-17 02:12:10');
+INSERT INTO "sessions" VALUES('2e49e140-b1f9-477b-aaf0-d5dce79651ac',3,'2026-01-22 22:51:02.721','2025-12-23 22:51:02');
+INSERT INTO "sessions" VALUES('457af1b1-e202-4d9c-8f23-45d0e9d94398',1,'2026-01-23 00:23:43.687','2025-12-24 00:23:43');
+INSERT INTO "sessions" VALUES('08a15585-9897-4483-8e97-b7d3791ae026',1,'2026-02-02 22:38:04.099','2026-01-03 22:38:04');
+CREATE TABLE IF NOT EXISTS "users" (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  email TEXT NOT NULL UNIQUE,
+  password_hash TEXT,  -- Now nullable
+  is_admin BOOLEAN DEFAULT 0,
+  is_whitelisted BOOLEAN DEFAULT 1,
+  created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+  updated_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+  name TEXT,
+  is_provisional INTEGER DEFAULT 0,
+  signup_code TEXT
+);
+INSERT INTO "users" VALUES(1,'sebpartof2@gmail.com','4af1d7d982da964ead8c55770155e270d27fa82f76e2e3334a98381729f92d85',1,1,'2025-12-13 19:58:50','2025-12-13 20:23:45','Sebastian',0,NULL);
+INSERT INTO "users" VALUES(2,'stephanie.kendall@gmail.com','19e74589bcb84d1e5ceb387c17d327d4e40c5946df4cdbd9090db7dfb4aae941',0,1,'2025-12-13 20:20:11','2025-12-13 20:20:11','Stephanie',0,NULL);
+INSERT INTO "users" VALUES(3,'huikang00@gmail.com','0c93429aca7ff69f83c2c84de3ed248303f2a924140cd60cb23cbec34e62c862',0,1,'2025-12-13 20:23:25','2025-12-13 20:23:25','Hui',0,NULL);
+INSERT INTO "users" VALUES(4,'theodore.kang00@gmail.com','',0,1,'2025-12-13 20:23:39','2025-12-13 20:23:50','Theodore',1,'BNV78');
+CREATE TABLE IF NOT EXISTS "visits" (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  restaurant_id INTEGER NOT NULL,
+  user_id INTEGER NOT NULL,
+  attended BOOLEAN DEFAULT 0,
+  rating REAL,  -- Changed from INTEGER to REAL, removed CHECK constraint
+  created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+  updated_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (restaurant_id) REFERENCES restaurants(id) ON DELETE CASCADE,
+  FOREIGN KEY (user_id) REFERENCES users(id),
+  UNIQUE(restaurant_id, user_id)
+);
+INSERT INTO "visits" VALUES(1,1,2,1,7,'2025-12-14 00:10:09','2025-12-14 00:12:59');
+INSERT INTO "visits" VALUES(2,1,3,1,8,'2025-12-14 00:10:09','2025-12-14 00:12:58');
+INSERT INTO "visits" VALUES(3,1,1,1,9,'2025-12-14 00:10:09','2025-12-14 00:12:59');
+INSERT INTO "visits" VALUES(4,1,4,1,10,'2025-12-14 00:10:09','2025-12-14 00:12:58');
+INSERT INTO "visits" VALUES(5,69,4,1,1,'2025-12-14 01:31:42','2025-12-14 01:31:45');
+INSERT INTO "visits" VALUES(6,69,3,1,7,'2025-12-14 01:31:42','2025-12-14 01:31:45');
+INSERT INTO "visits" VALUES(7,69,2,1,6,'2025-12-14 01:31:43','2025-12-14 01:31:45');
+INSERT INTO "visits" VALUES(8,69,1,1,10,'2025-12-14 01:31:43','2025-12-14 01:31:45');
+INSERT INTO "visits" VALUES(9,68,4,1,9,'2025-12-14 01:32:13','2025-12-14 01:32:13');
+INSERT INTO "visits" VALUES(10,68,3,1,8,'2025-12-14 01:32:13','2025-12-14 01:32:13');
+INSERT INTO "visits" VALUES(11,68,2,1,8,'2025-12-14 01:32:13','2025-12-14 01:32:14');
+INSERT INTO "visits" VALUES(12,68,1,1,10,'2025-12-14 01:32:13','2025-12-14 01:32:14');
+INSERT INTO "visits" VALUES(13,67,4,1,10,'2025-12-14 01:33:17','2025-12-14 01:33:17');
+INSERT INTO "visits" VALUES(14,67,3,1,3,'2025-12-14 01:33:17','2025-12-14 01:33:17');
+INSERT INTO "visits" VALUES(15,67,2,1,4,'2025-12-14 01:33:17','2025-12-14 01:33:18');
+INSERT INTO "visits" VALUES(16,67,1,1,2,'2025-12-14 01:33:17','2025-12-14 01:33:18');
+INSERT INTO "visits" VALUES(17,66,4,1,9,'2025-12-14 01:35:15','2025-12-14 01:35:15');
+INSERT INTO "visits" VALUES(18,66,3,1,9,'2025-12-14 01:35:15','2025-12-14 01:35:15');
+INSERT INTO "visits" VALUES(19,66,2,1,5,'2025-12-14 01:35:15','2025-12-14 01:35:16');
+INSERT INTO "visits" VALUES(20,66,1,1,10,'2025-12-14 01:35:15','2025-12-14 01:35:16');
+INSERT INTO "visits" VALUES(21,65,4,1,9,'2025-12-14 01:35:52','2025-12-14 01:35:53');
+INSERT INTO "visits" VALUES(22,65,3,1,8,'2025-12-14 01:35:52','2025-12-14 01:35:53');
+INSERT INTO "visits" VALUES(23,65,2,1,9,'2025-12-14 01:35:52','2025-12-14 01:35:53');
+INSERT INTO "visits" VALUES(24,65,1,1,7.7,'2025-12-14 01:35:52','2025-12-14 01:35:53');
+INSERT INTO "visits" VALUES(25,64,4,1,10,'2025-12-14 01:36:30','2025-12-14 01:36:30');
+INSERT INTO "visits" VALUES(26,64,3,1,3,'2025-12-14 01:36:30','2025-12-14 01:36:30');
+INSERT INTO "visits" VALUES(27,64,2,1,3,'2025-12-14 01:36:30','2025-12-14 01:36:30');
+INSERT INTO "visits" VALUES(28,64,1,1,0.1,'2025-12-14 01:36:30','2025-12-14 01:36:31');
+INSERT INTO "visits" VALUES(29,63,4,1,10,'2025-12-14 01:37:02','2025-12-14 01:37:03');
+INSERT INTO "visits" VALUES(30,63,3,1,8,'2025-12-14 01:37:02','2025-12-14 01:37:03');
+INSERT INTO "visits" VALUES(31,63,2,1,8,'2025-12-14 01:37:02','2025-12-14 01:37:03');
+INSERT INTO "visits" VALUES(32,63,1,1,7,'2025-12-14 01:37:02','2025-12-14 01:37:04');
+INSERT INTO "visits" VALUES(33,62,4,1,7,'2025-12-14 01:37:40','2025-12-14 01:37:40');
+INSERT INTO "visits" VALUES(34,62,3,1,6,'2025-12-14 01:37:40','2025-12-14 01:37:41');
+INSERT INTO "visits" VALUES(35,62,2,1,6,'2025-12-14 01:37:40','2025-12-14 01:37:41');
+INSERT INTO "visits" VALUES(36,62,1,1,2,'2025-12-14 01:37:40','2025-12-14 01:37:41');
+INSERT INTO "visits" VALUES(37,61,4,1,10,'2025-12-14 01:38:26','2025-12-14 01:38:26');
+INSERT INTO "visits" VALUES(38,61,3,1,7,'2025-12-14 01:38:26','2025-12-14 01:38:27');
+INSERT INTO "visits" VALUES(39,61,2,1,4,'2025-12-14 01:38:26','2025-12-14 01:38:27');
+INSERT INTO "visits" VALUES(40,61,1,1,8.9,'2025-12-14 01:38:26','2025-12-14 01:38:27');
+INSERT INTO "visits" VALUES(41,60,4,1,10,'2025-12-14 01:38:51','2025-12-14 01:38:52');
+INSERT INTO "visits" VALUES(42,60,3,1,7,'2025-12-14 01:38:51','2025-12-14 01:38:52');
+INSERT INTO "visits" VALUES(43,60,2,1,7,'2025-12-14 01:38:51','2025-12-14 01:38:52');
+INSERT INTO "visits" VALUES(44,60,1,1,9.4,'2025-12-14 01:38:51','2025-12-14 01:38:52');
+INSERT INTO "visits" VALUES(45,59,4,1,9,'2025-12-14 01:39:58','2025-12-14 01:40:32');
+INSERT INTO "visits" VALUES(46,59,3,1,8,'2025-12-14 01:39:58','2025-12-14 01:40:32');
+INSERT INTO "visits" VALUES(47,59,2,1,9,'2025-12-14 01:39:58','2025-12-14 01:40:32');
+INSERT INTO "visits" VALUES(48,59,1,1,5.5,'2025-12-14 01:39:58','2025-12-14 01:40:32');
+INSERT INTO "visits" VALUES(49,57,4,1,10,'2025-12-14 01:41:02','2025-12-14 01:41:03');
+INSERT INTO "visits" VALUES(50,57,3,1,5,'2025-12-14 01:41:02','2025-12-14 01:41:03');
+INSERT INTO "visits" VALUES(51,57,2,1,5,'2025-12-14 01:41:02','2025-12-14 01:41:03');
+INSERT INTO "visits" VALUES(52,57,1,1,5.8,'2025-12-14 01:41:02','2025-12-14 01:41:03');
+INSERT INTO "visits" VALUES(53,13,4,1,10,'2025-12-24 00:45:52','2025-12-24 00:45:53');
+INSERT INTO "visits" VALUES(54,13,3,1,8,'2025-12-24 00:45:52','2025-12-24 00:45:53');
+INSERT INTO "visits" VALUES(55,13,2,1,7,'2025-12-24 00:45:52','2025-12-24 00:45:54');
+INSERT INTO "visits" VALUES(56,13,1,1,10,'2025-12-24 00:45:52','2025-12-24 00:45:54');
+INSERT INTO "visits" VALUES(57,39,4,1,10,'2026-01-03 23:44:52','2026-01-03 23:44:53');
+INSERT INTO "visits" VALUES(58,39,3,1,7,'2026-01-03 23:44:52','2026-01-03 23:44:54');
+INSERT INTO "visits" VALUES(59,39,2,1,7,'2026-01-03 23:44:52','2026-01-03 23:44:54');
+INSERT INTO "visits" VALUES(60,39,1,1,6.5,'2026-01-03 23:44:52','2026-01-03 23:44:54');
+DELETE FROM sqlite_sequence;
+INSERT INTO "sqlite_sequence" VALUES('users',5);
+INSERT INTO "sqlite_sequence" VALUES('visits',60);
+INSERT INTO "sqlite_sequence" VALUES('restaurants',69);
+CREATE INDEX idx_restaurants_state ON restaurants(state);
+CREATE INDEX idx_restaurants_nominated_by ON restaurants(nominated_by_user_id);
+CREATE INDEX idx_sessions_user ON sessions(user_id);
+CREATE INDEX idx_sessions_expires ON sessions(expires_at);
+CREATE UNIQUE INDEX idx_users_email ON users(email);
+CREATE INDEX idx_users_signup_code ON users(signup_code);
+CREATE INDEX idx_restaurants_reservation ON restaurants(reservation_datetime);
+CREATE INDEX idx_visits_restaurant ON visits(restaurant_id);
+CREATE INDEX idx_visits_user ON visits(user_id);

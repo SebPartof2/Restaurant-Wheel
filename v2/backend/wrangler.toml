@@ -1,0 +1,28 @@
+name = "restaurant-wheel-api"
+main = "src/index.ts"
+compatibility_date = "2024-01-01"
+
+[env.production]
+name = "restaurant-wheel-api"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "restaurant-wheel-db-v2"
+database_id = "62f96337-ef44-41b5-a1bd-60fa4221bae4" # Will be populated after creating D1 database
+
+[[r2_buckets]]
+binding = "PHOTOS_BUCKET"
+bucket_name = "wheel-restaurant-photos"
+preview_bucket_name = "wheel-restaurant-photos-preview"
+
+[vars]
+ENVIRONMENT = "production"
+FRONTEND_URL = "https://wheel.sebbyk.net"
+R2_PUBLIC_URL = "https://wheel-cdn.sebbyk.net" # Custom domain for R2 bucket
+
+# OAuth2 configuration (S-Auth)
+OAUTH_AUTHORIZATION_ENDPOINT = "https://auth.sebbyk.net/authorize"
+OAUTH_TOKEN_ENDPOINT = "https://auth.sebbyk.net/token"
+OAUTH_USERINFO_ENDPOINT = "https://auth.sebbyk.net/userinfo"
+OAUTH_CLIENT_ID = "cli_e96035f611408bb60ec01e5fc7bcdaf1" # Update with actual client ID from S-Auth
+OAUTH_REDIRECT_URI = "https://wheel.sebbyk.net/api/auth/oauth/callback"

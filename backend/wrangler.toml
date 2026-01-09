@@ -12,4 +12,4 @@ database_id = "c589926f-01a5-46db-8d3b-32cc83582c31" # Will be populated after c
 
 [vars]
 ENVIRONMENT = "production"
-FRONTEND_URL = "https://wheel.sebbyboe.online"
+FRONTEND_URL = "https://wheel.sebbyk.net"

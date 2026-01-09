@@ -2,7 +2,16 @@
   "permissions": {
     "allow": [
       "Bash(npm run dev:*)",
-      "Bash(wrangler d1 execute:*)"
+      "Bash(wrangler d1 execute:*)",
+      "Bash(git add:*)",
+      "Bash(git commit -m \"$(cat <<''EOF''\nRebrand to The Wheel - Chesterton Edition\n\nUpdated all user-facing branding from \"The Wheel\" to \n\"The Wheel - Chesterton Edition\" across the application.\n\nChanges:\n- Header logo/title\n- Login page title\n- Signup page title  \n- Wheel page heading\n- Browser tab title (index.html)\n\n🤖 Generated with [Claude Code](https://claude.com/claude-code)\n\nCo-Authored-By: Claude Sonnet 4.5 <noreply@anthropic.com>\nEOF\n)\")",
+      "Bash(git push:*)",
+      "Bash(git commit -m \"$\\(cat <<''EOF''\nAdd comprehensive Product Requirements Document \\(PRD\\)\n\nCreated detailed baseline documentation for Version 1.0 covering:\n- Complete feature inventory\n- User roles and permissions  \n- All API endpoints with full specifications\n- Database schema with relationships\n- Key workflows and state machines\n- Business rules and constraints\n- Security considerations\n- Frontend component architecture\n- Deployment and migration details\n- Future enhancement opportunities\n\nThis PRD serves as the foundation for planning Version 2.0 and provides\ncomplete system documentation for developers and stakeholders.\n\nSections include:\n1. System Overview\n2. User Roles & Permissions\n3. Pages & Features by Role\n4. Database Schema\n5. API Endpoints & Functionality\n6. Key Workflows\n7. Business Rules & Constraints\n8. Configuration & Settings\n9. Data Models & Types\n10. Security Considerations\n11. Error Handling\n12. Frontend Feature Breakdown\n13. Migration & Deployment\n14. Future Enhancement Opportunities\n\n📋 Generated with [Claude Code]\\(https://claude.com/claude-code\\)\n\nCo-Authored-By: Claude Sonnet 4.5 <noreply@anthropic.com>\nEOF\n\\)\")",
+      "Bash(npm create:*)",
+      "Bash(npm install)",
+      "Bash(npm install:*)",
+      "Bash(npx tailwindcss:*)",
+      "Bash(wrangler d1 export:*)"
     ]
   }
 }
