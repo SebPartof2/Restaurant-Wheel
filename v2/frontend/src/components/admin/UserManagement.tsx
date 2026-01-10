@@ -126,17 +126,17 @@ export function UserManagement() {
                       </td>
                       <td className="py-4 px-4">
                         <div className="flex gap-2 flex-wrap">
-                          {user.is_admin && (
+                          {!!user.is_admin && (
                             <span className="px-2 py-1 bg-purple-100 text-purple-800 text-xs rounded-full font-medium">
                               Admin
                             </span>
                           )}
-                          {user.is_whitelisted && (
+                          {!!user.is_whitelisted && (
                             <span className="px-2 py-1 bg-green-100 text-green-800 text-xs rounded-full font-medium">
                               Whitelisted
                             </span>
                           )}
-                          {user.is_provisional && (
+                          {!!user.is_provisional && (
                             <span className="px-2 py-1 bg-yellow-100 text-yellow-800 text-xs rounded-full font-medium">
                               Provisional
                             </span>
@@ -144,7 +144,7 @@ export function UserManagement() {
                         </div>
                       </td>
                       <td className="py-4 px-4">
-                        {user.is_whitelisted && !user.is_admin && (
+                        {!!user.is_whitelisted && !user.is_admin && (
                           <button
                             onClick={() => handleRemoveFromWhitelist(user.email)}
                             disabled={removeFromWhitelist.isPending}

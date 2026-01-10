@@ -24,7 +24,7 @@ export function DashboardPage() {
           Ready to discover your next dining adventure?
         </p>
         <div className="flex flex-wrap gap-4">
-          {user?.is_admin && (
+          {!!user?.is_admin && (
             <Link
               to="/wheel"
               className="bg-navy-900 text-white px-6 py-3 rounded-lg font-medium hover:bg-navy-800 transition-colors"
@@ -190,7 +190,7 @@ export function DashboardPage() {
               Browse photos from all restaurants in one place
             </p>
           </Link>
-          {user?.is_admin && (
+          {!!user?.is_admin && (
             <>
               <Link
                 to="/admin/pending"

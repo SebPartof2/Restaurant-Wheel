@@ -273,7 +273,7 @@ export function RestaurantDetailPage() {
         </div>
 
         {/* Admin Actions */}
-        {user?.is_admin && (
+        {!!user?.is_admin && (
           <div className="mt-6 pt-6 border-t border-gray-300">
             <h3 className="font-semibold text-navy-900 mb-3">Admin Actions</h3>
             <div className="flex flex-wrap gap-3">
@@ -339,7 +339,7 @@ export function RestaurantDetailPage() {
       </div>
 
       {/* Edit Restaurant Form */}
-      {user?.is_admin && isEditing && (
+      {!!user?.is_admin && isEditing && (
         <div className="glass-card p-8 mb-6">
           <h2 className="text-2xl font-bold text-navy-900 mb-6">Edit Restaurant</h2>
           <div className="space-y-4">
@@ -462,7 +462,7 @@ export function RestaurantDetailPage() {
       </div>
 
       {/* Rating Management for Visited Restaurants */}
-      {user?.is_admin && restaurant.state === 'visited' && (
+      {!!user?.is_admin && restaurant.state === 'visited' && (
         <RatingManagement
           restaurantId={restaurant.id!}
           restaurantName={restaurant.name}

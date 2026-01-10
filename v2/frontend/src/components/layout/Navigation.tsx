@@ -42,7 +42,7 @@ export function Navigation() {
           <Link to="/nominations" className={navLinkClass('/nominations')}>
             Restaurants
           </Link>
-          {user?.is_admin && (
+          {!!user?.is_admin && (
             <Link to="/wheel" className={navLinkClass('/wheel')}>
               Wheel
             </Link>
@@ -55,7 +55,7 @@ export function Navigation() {
           </Link>
 
           {/* Admin Dropdown */}
-          {user?.is_admin && (
+          {!!user?.is_admin && (
             <div className="relative">
               <button
                 onClick={() => setAdminDropdownOpen(!adminDropdownOpen)}
@@ -175,7 +175,7 @@ export function Navigation() {
           >
             Restaurants
           </Link>
-          {user?.is_admin && (
+          {!!user?.is_admin && (
             <Link
               to="/wheel"
               className={mobileNavLinkClass('/wheel')}
@@ -200,7 +200,7 @@ export function Navigation() {
           </Link>
 
           {/* Admin Section for Mobile */}
-          {user?.is_admin && (
+          {!!user?.is_admin && (
             <>
               <div className="border-t border-gray-300 my-2 pt-2">
                 <div className="text-xs font-semibold text-gray-600 px-4 py-1">
