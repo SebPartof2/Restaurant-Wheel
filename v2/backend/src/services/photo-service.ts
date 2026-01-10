@@ -138,7 +138,7 @@ export class PhotoService {
    * Get all photos for a restaurant
    */
   async getPhotosForRestaurant(restaurantId: number): Promise<RestaurantPhoto[]> {
-    const photos = await this.db.queryAll<any>(
+    const photos = await this.db.execute<any>(
       `SELECT p.*, u.id as uploader_id, u.name as uploader_name, u.email as uploader_email
        FROM restaurant_photos p
        LEFT JOIN users u ON p.uploaded_by_user_id = u.id
