@@ -188,13 +188,13 @@ export function RestaurantDetailPage() {
               <p className="font-medium">{restaurant.average_rating.toFixed(2)} / 10</p>
             </div>
           )}
-          {restaurant.visited_at && (
+          {restaurant.state === 'visited' && restaurant.visited_at && (
             <div>
               <span className="text-sm text-gray-600">Visited:</span>
               <p className="font-medium">{new Date(restaurant.visited_at).toLocaleDateString()}</p>
             </div>
           )}
-          {restaurant.reservation_datetime && (
+          {restaurant.state === 'upcoming' && restaurant.reservation_datetime && (
             <div>
               <span className="text-sm text-gray-600">Reservation:</span>
               <p className="font-medium">{new Date(restaurant.reservation_datetime).toLocaleString()}</p>

@@ -85,11 +85,23 @@ export function RestaurantCard({ restaurant, onClick }: RestaurantCardProps) {
           </div>
         )}
 
-        {restaurant.reservation_datetime && (
+        {restaurant.state === 'upcoming' && restaurant.reservation_datetime && (
           <div className="flex items-center gap-1.5 text-sm text-gray-600 mb-2">
             <Calendar className="w-4 h-4" />
             <span>
-              {new Date(restaurant.reservation_datetime).toLocaleDateString('en-US', {
+              Reservation: {new Date(restaurant.reservation_datetime).toLocaleDateString('en-US', {
+                month: 'short',
+                day: 'numeric',
+                year: 'numeric',
+              })}
+            </span>
+          </div>
+        )}
+        {restaurant.state === 'visited' && restaurant.visited_at && (
+          <div className="flex items-center gap-1.5 text-sm text-gray-600 mb-2">
+            <Calendar className="w-4 h-4" />
+            <span>
+              Visited: {new Date(restaurant.visited_at).toLocaleDateString('en-US', {
                 month: 'short',
                 day: 'numeric',
                 year: 'numeric',
