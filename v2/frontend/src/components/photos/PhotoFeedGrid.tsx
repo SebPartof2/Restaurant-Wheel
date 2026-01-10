@@ -3,10 +3,11 @@ import { PhotoFeedItem } from './PhotoFeedItem';
 
 interface PhotoFeedGridProps {
   photos: RestaurantPhoto[];
+  restaurantNames: Record<number, string>;
   onPhotoClick: (photo: RestaurantPhoto, index: number) => void;
 }
 
-export function PhotoFeedGrid({ photos, onPhotoClick }: PhotoFeedGridProps) {
+export function PhotoFeedGrid({ photos, restaurantNames, onPhotoClick }: PhotoFeedGridProps) {
   if (photos.length === 0) {
     return (
       <div className="text-center py-16">
@@ -23,6 +24,7 @@ export function PhotoFeedGrid({ photos, onPhotoClick }: PhotoFeedGridProps) {
         <PhotoFeedItem
           key={photo.id}
           photo={photo}
+          restaurantName={restaurantNames[photo.restaurant_id]}
           onClick={() => onPhotoClick(photo, index)}
         />
       ))}

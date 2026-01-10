@@ -3,6 +3,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { AuthProvider } from './contexts/AuthContext';
 import { LoginPage } from './components/auth/LoginPage';
 import { CallbackPage } from './components/auth/CallbackPage';
+import { SSOPage } from './components/auth/SSOPage';
 import { ProtectedRoute } from './components/auth/ProtectedRoute';
 import { DashboardPage } from './pages/DashboardPage';
 import { NominationsPage } from './pages/NominationsPage';
@@ -36,6 +37,7 @@ function App() {
           <Routes>
             {/* Public routes */}
             <Route path="/login" element={<LoginPage />} />
+            <Route path="/sso" element={<SSOPage />} />
             <Route path="/auth/callback" element={<CallbackPage />} />
 
             {/* Protected routes */}

@@ -1,19 +1,20 @@
+import { Link } from 'react-router';
 import type { RestaurantPhoto } from '../../../../shared/types';
 
 interface PhotoFeedItemProps {
   photo: RestaurantPhoto;
+  restaurantName?: string;
   onClick: () => void;
 }
 
-export function PhotoFeedItem({ photo, onClick }: PhotoFeedItemProps) {
+export function PhotoFeedItem({ photo, restaurantName, onClick }: PhotoFeedItemProps) {
   return (
     <div
-      onClick={onClick}
       className="glass-card-hover cursor-pointer overflow-hidden group"
     >
-      <div className="aspect-square bg-gray-200 overflow-hidden">
+      <div className="aspect-square bg-gray-200 overflow-hidden" onClick={onClick}>
         <img
-          src={photo.thumbnail_url || photo.original_url}
+          src={photo.original_url}
           alt={photo.caption || 'Restaurant photo'}
           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
           loading="lazy"
@@ -21,15 +22,13 @@ export function PhotoFeedItem({ photo, onClick }: PhotoFeedItemProps) {
       </div>
 
       <div className="p-4">
-        <div className="flex items-center justify-between mb-2">
-          <h3 className="font-semibold text-navy-900 truncate">
-            Restaurant #{photo.restaurant_id}
-          </h3>
-          {photo.is_primary && (
-            <span className="px-2 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
-              Primary
-            </span>
-          )}
+        <div className="mb-2">
+          <Link
+            to={`/restaurants/${photo.restaurant_id}`}
+            className="font-semibold text-navy-900 truncate hover:underline"
+          >
+            {restaurantName || `Restaurant #${photo.restaurant_id}`}
+          </Link>
         </div>
 
         {photo.caption && (

@@ -23,6 +23,12 @@ export function PhotoFeedPage() {
   const photos = photosData?.photos || [];
   const restaurants = restaurantsData?.restaurants || [];
 
+  // Create a map of restaurant IDs to names
+  const restaurantNames: Record<number, string> = {};
+  restaurants.forEach((r) => {
+    if (r.id) restaurantNames[r.id] = r.name;
+  });
+
   const handlePhotoClick = (photo: RestaurantPhoto, index: number) => {
     setSelectedPhoto(photo);
     setSelectedIndex(index);
@@ -153,7 +159,7 @@ export function PhotoFeedPage() {
       {/* Photo Grid */}
       {!photosLoading && (
         <div className="glass-card p-8">
-          <PhotoFeedGrid photos={photos} onPhotoClick={handlePhotoClick} />
+          <PhotoFeedGrid photos={photos} restaurantNames={restaurantNames} onPhotoClick={handlePhotoClick} />
         </div>
       )}
 
