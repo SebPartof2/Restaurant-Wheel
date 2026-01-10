@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { createPortal } from 'react-dom';
 import { X, ChevronLeft, ChevronRight, Star, Trash2, Edit2, Check } from 'lucide-react';
 import { formatDistanceToNow } from 'date-fns';
 import type { RestaurantPhoto } from '../../../../shared/types';
@@ -143,8 +144,8 @@ export function PhotoGallery({ photos, restaurantName, restaurantId }: PhotoGall
         ))}
       </div>
 
-      {/* Full-screen carousel */}
-      {selectedIndex !== null && selectedPhoto && (
+      {/* Full-screen carousel - rendered via portal to escape stacking context */}
+      {selectedIndex !== null && selectedPhoto && createPortal(
         <div
           className="fixed inset-0 z-[100] flex items-center justify-center bg-black/90 backdrop-blur-sm"
           onClick={() => {
@@ -309,7 +310,8 @@ export function PhotoGallery({ photos, restaurantName, restaurantId }: PhotoGall
               </div>
             </div>
           </div>
-        </div>
+        </div>,
+        document.body
       )}
     </>
   );
