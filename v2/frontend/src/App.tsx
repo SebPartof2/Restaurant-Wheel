@@ -11,6 +11,10 @@ import { RestaurantDetailPage } from './pages/RestaurantDetailPage';
 import { WheelPage } from './pages/WheelPage';
 import { StatisticsPage } from './pages/StatisticsPage';
 import { UserManagement } from './components/admin/UserManagement';
+import { PendingNominationsPage } from './pages/admin/PendingNominationsPage';
+import { UpcomingRestaurantsPage } from './pages/admin/UpcomingRestaurantsPage';
+import { VisitedRestaurantsPage } from './pages/admin/VisitedRestaurantsPage';
+import { AdminNominatePage } from './pages/admin/AdminNominatePage';
 
 // Placeholder pages (to be implemented in future phases)
 function PlaceholderPage({ title }: { title: string }) {
@@ -116,7 +120,7 @@ function App() {
               path="/admin/pending"
               element={
                 <ProtectedRoute requireAdmin>
-                  <PlaceholderPage title="Pending Nominations" />
+                  <PendingNominationsPage />
                 </ProtectedRoute>
               }
             />
@@ -124,7 +128,7 @@ function App() {
               path="/admin/upcoming"
               element={
                 <ProtectedRoute requireAdmin>
-                  <PlaceholderPage title="Upcoming Restaurants" />
+                  <UpcomingRestaurantsPage />
                 </ProtectedRoute>
               }
             />
@@ -132,7 +136,7 @@ function App() {
               path="/admin/visited"
               element={
                 <ProtectedRoute requireAdmin>
-                  <PlaceholderPage title="Visited Restaurants" />
+                  <VisitedRestaurantsPage />
                 </ProtectedRoute>
               }
             />
@@ -140,7 +144,7 @@ function App() {
               path="/admin/nominate"
               element={
                 <ProtectedRoute requireAdmin>
-                  <PlaceholderPage title="Admin Nominate" />
+                  <AdminNominatePage />
                 </ProtectedRoute>
               }
             />
