@@ -9,7 +9,7 @@ export function DashboardPage() {
   const { user } = useAuth();
   const { data: stats, isLoading: statsLoading } = useRestaurantStats();
   const { data: upcomingData } = useRestaurants({ state: 'upcoming', limit: 1 });
-  const { data: myNominations } = useRestaurants({ limit: 5 });
+  const { data: recentVisited } = useRestaurants({ state: 'visited', sort: 'date', limit: 3 });
 
   const upcomingRestaurant = upcomingData?.restaurants[0];
 
@@ -146,20 +146,20 @@ export function DashboardPage() {
         </div>
       </div>
 
-      {/* My Nominations */}
-      {myNominations && myNominations.restaurants.length > 0 && (
+      {/* Recently Visited Restaurants */}
+      {recentVisited && recentVisited.restaurants.length > 0 && (
         <div className="glass-card p-8 mb-8">
           <div className="flex items-center justify-between mb-6">
-            <h3 className="text-2xl font-bold text-navy-900">Recent Restaurants</h3>
+            <h3 className="text-2xl font-bold text-navy-900">Recently Visited</h3>
             <Link
-              to="/nominations"
+              to="/nominations?state=visited"
               className="text-navy-900 hover:underline font-medium"
             >
               View All →
             </Link>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {myNominations.restaurants.slice(0, 3).map((restaurant) => (
+            {recentVisited.restaurants.map((restaurant) => (
               <Link key={restaurant.id} to={`/nominations/${restaurant.id}`}>
                 <RestaurantCard restaurant={restaurant} />
               </Link>

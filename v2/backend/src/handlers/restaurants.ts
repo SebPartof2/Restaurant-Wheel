@@ -217,19 +217,29 @@ export async function handleGetOverallStats(c: Context<{ Bindings: Env; Variable
   try {
     const db = createDbService(c.env);
 
+    // Get total restaurant count
+    const totalResult = await db.queryOne<{ count: number }>(
+      `SELECT COUNT(*) as count FROM restaurants`
+    );
+
     // Get overall average rating across all visited restaurants
-    const result = await db.queryOne<{ avg_rating: number | null; restaurant_count: number }>(
-      `SELECT AVG(average_rating) as avg_rating, COUNT(*) as restaurant_count
+    const ratingResult = await db.queryOne<{ avg_rating: number | null }>(
+      `SELECT AVG(average_rating) as avg_rating
        FROM restaurants
        WHERE state = 'visited' AND average_rating > 0`
     );
 
-    const overallAverage = result?.avg_rating || 0;
-    const restaurantCount = result?.restaurant_count || 0;
+    // Get visited restaurant count
+    const visitedResult = await db.queryOne<{ count: number }>(
+      `SELECT COUNT(*) as count
+       FROM restaurants
+       WHERE state = 'visited'`
+    );
 
     return c.json({
-      overall_average_rating: overallAverage,
-      rated_restaurant_count: restaurantCount,
+      total_restaurants: totalResult?.count || 0,
+      average_rating: ratingResult?.avg_rating || null,
+      visited_count: visitedResult?.count || 0,
     });
   } catch (error) {
     const message = error instanceof Error ? error.message : 'Failed to fetch statistics';
