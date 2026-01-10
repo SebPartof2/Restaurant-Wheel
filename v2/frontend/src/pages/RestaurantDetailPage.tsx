@@ -5,8 +5,11 @@ import { usePhotos } from '../hooks/usePhotos';
 import { useAuth } from '../contexts/AuthContext';
 import { PhotoGallery } from '../components/photos/PhotoGallery';
 import { PhotoUploadDialog } from '../components/photos/PhotoUploadDialog';
+import { RatingManagement } from '../components/admin/RatingManagement';
 import { useState } from 'react';
+import { Edit } from 'lucide-react';
 import {
+  useUpdateRestaurant,
   useApproveRestaurant,
   useRejectRestaurant,
   useConfirmUpcoming,
@@ -18,11 +21,20 @@ export function RestaurantDetailPage() {
   const navigate = useNavigate();
   const { user } = useAuth();
   const [showPhotoUpload, setShowPhotoUpload] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
+  const [editForm, setEditForm] = useState({
+    name: '',
+    address: '',
+    is_fast_food: false,
+    menu_link: '',
+    photo_link: '',
+  });
 
   const restaurantId = id ? parseInt(id, 10) : undefined;
   const { data: restaurantData, isLoading, error } = useRestaurant(restaurantId);
   const { data: photosData } = usePhotos(restaurantId);
 
+  const updateRestaurant = useUpdateRestaurant();
   const approveRestaurant = useApproveRestaurant();
   const rejectRestaurant = useRejectRestaurant();
   const confirmUpcoming = useConfirmUpcoming();
@@ -125,6 +137,37 @@ export function RestaurantDetailPage() {
       });
     } catch (err: any) {
       alert(err.message || 'Failed to mark as visited');
+    }
+  };
+
+  const handleEditClick = () => {
+    setEditForm({
+      name: restaurant.name,
+      address: restaurant.address,
+      is_fast_food: !!restaurant.is_fast_food,
+      menu_link: restaurant.menu_link || '',
+      photo_link: restaurant.photo_link || '',
+    });
+    setIsEditing(true);
+  };
+
+  const handleSaveEdit = async () => {
+    if (!restaurant.id) return;
+
+    try {
+      await updateRestaurant.mutateAsync({
+        id: restaurant.id,
+        data: {
+          name: editForm.name,
+          address: editForm.address,
+          is_fast_food: editForm.is_fast_food,
+          menu_link: editForm.menu_link || undefined,
+          photo_link: editForm.photo_link || undefined,
+        },
+      });
+      setIsEditing(false);
+    } catch (err: any) {
+      alert(err.message || 'Failed to update restaurant');
     }
   };
 
@@ -231,6 +274,13 @@ export function RestaurantDetailPage() {
           <div className="mt-6 pt-6 border-t border-gray-300">
             <h3 className="font-semibold text-navy-900 mb-3">Admin Actions</h3>
             <div className="flex flex-wrap gap-3">
+              <button
+                onClick={handleEditClick}
+                className="flex items-center gap-2 glass-button px-4 py-2 rounded-lg font-medium hover:bg-white/40 transition-colors"
+              >
+                <Edit className="w-4 h-4" />
+                Edit Restaurant
+              </button>
               {restaurant.state === 'pending' && (
                 <>
                   <button
@@ -285,6 +335,92 @@ export function RestaurantDetailPage() {
         )}
       </div>
 
+      {/* Edit Restaurant Form */}
+      {user?.is_admin && isEditing && (
+        <div className="glass-card p-8 mb-6">
+          <h2 className="text-2xl font-bold text-navy-900 mb-6">Edit Restaurant</h2>
+          <div className="space-y-4">
+            <div>
+              <label className="block text-sm font-semibold text-gray-700 mb-2">
+                Restaurant Name
+              </label>
+              <input
+                type="text"
+                value={editForm.name}
+                onChange={(e) => setEditForm({ ...editForm, name: e.target.value })}
+                className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-navy-900"
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-semibold text-gray-700 mb-2">
+                Address
+              </label>
+              <input
+                type="text"
+                value={editForm.address}
+                onChange={(e) => setEditForm({ ...editForm, address: e.target.value })}
+                className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-navy-900"
+              />
+            </div>
+
+            <div>
+              <label className="flex items-center gap-3 cursor-pointer">
+                <input
+                  type="checkbox"
+                  checked={editForm.is_fast_food}
+                  onChange={(e) => setEditForm({ ...editForm, is_fast_food: e.target.checked })}
+                  className="w-5 h-5 rounded border-gray-300 text-navy-900 focus:ring-navy-900"
+                />
+                <span className="text-sm font-semibold text-gray-700">Fast Food Restaurant</span>
+              </label>
+            </div>
+
+            <div>
+              <label className="block text-sm font-semibold text-gray-700 mb-2">
+                Menu Link
+              </label>
+              <input
+                type="url"
+                value={editForm.menu_link}
+                onChange={(e) => setEditForm({ ...editForm, menu_link: e.target.value })}
+                className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-navy-900"
+                placeholder="https://example.com/menu"
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-semibold text-gray-700 mb-2">
+                Photo Link
+              </label>
+              <input
+                type="url"
+                value={editForm.photo_link}
+                onChange={(e) => setEditForm({ ...editForm, photo_link: e.target.value })}
+                className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-navy-900"
+                placeholder="https://example.com/photo.jpg"
+              />
+            </div>
+
+            <div className="flex gap-4 pt-4">
+              <button
+                onClick={handleSaveEdit}
+                disabled={updateRestaurant.isPending}
+                className="flex-1 bg-navy-900 text-white px-6 py-3 rounded-lg font-medium hover:bg-navy-800 transition-colors disabled:opacity-50"
+              >
+                {updateRestaurant.isPending ? 'Saving...' : 'Save Changes'}
+              </button>
+              <button
+                onClick={() => setIsEditing(false)}
+                className="px-6 py-3 rounded-lg glass-button font-medium hover:bg-white/40 transition-colors"
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Photo Gallery */}
       <div className="glass-card p-8">
         <div className="flex items-center justify-between mb-6">
@@ -305,6 +441,14 @@ export function RestaurantDetailPage() {
           </div>
         )}
       </div>
+
+      {/* Rating Management for Visited Restaurants */}
+      {user?.is_admin && restaurant.state === 'visited' && (
+        <RatingManagement
+          restaurantId={restaurant.id!}
+          restaurantName={restaurant.name}
+        />
+      )}
 
       {/* Photo Upload Dialog */}
       <PhotoUploadDialog
