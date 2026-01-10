@@ -12,11 +12,14 @@ import { config } from '../config';
  * Adds user to context if valid session exists
  */
 export async function authMiddleware(c: Context<{ Bindings: Env; Variables: RequestContext }>, next: Next) {
+  // Create db service and add to context (needed by all handlers)
+  const db = createDbService(c.env);
+  c.set('db', db);
+
   const cookieHeader = c.req.header('Cookie');
   const sessionId = getSessionFromCookie(cookieHeader, config.session.cookieName);
 
   if (sessionId) {
-    const db = createDbService(c.env);
     const authService = new AuthService(db);
     const user = await authService.validateSession(sessionId);
 
