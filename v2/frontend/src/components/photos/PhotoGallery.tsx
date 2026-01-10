@@ -203,7 +203,7 @@ export function PhotoGallery({ photos, restaurantName, restaurantId }: PhotoGall
               className="max-w-full max-h-[80vh] object-contain rounded-lg"
             />
 
-            <div className="glass-card mt-4 p-4">
+            <div className="bg-white/90 backdrop-blur-md rounded-xl mt-4 p-4">
               <div className="flex items-start justify-between gap-4">
                 <div className="flex items-center gap-3 min-w-0 flex-1">
                   <div className="w-10 h-10 rounded-full bg-navy-900 text-white flex items-center justify-center font-medium flex-shrink-0">
