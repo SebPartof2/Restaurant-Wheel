@@ -17,6 +17,7 @@ export function PhotoUploadDialog({
   onUploadComplete
 }: PhotoUploadDialogProps) {
   const [files, setFiles] = useState<File[]>([]);
+  const [captions, setCaptions] = useState<Record<number, string>>({});
   const [uploading, setUploading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -38,6 +39,13 @@ export function PhotoUploadDialog({
 
   const removeFile = (index: number) => {
     setFiles(files.filter((_, i) => i !== index));
+    const newCaptions = { ...captions };
+    delete newCaptions[index];
+    setCaptions(newCaptions);
+  };
+
+  const updateCaption = (index: number, caption: string) => {
+    setCaptions(prev => ({ ...prev, [index]: caption }));
   };
 
   const handleUpload = async () => {
@@ -47,12 +55,15 @@ export function PhotoUploadDialog({
     setError(null);
 
     try {
-      for (const file of files) {
-        const isPrimary = files.indexOf(file) === 0;
-        await apiClient.uploadPhoto(restaurantId, file, isPrimary);
+      for (let i = 0; i < files.length; i++) {
+        const file = files[i];
+        const isPrimary = i === 0;
+        const caption = captions[i] || undefined;
+        await apiClient.uploadPhoto(restaurantId, file, isPrimary, caption);
       }
 
       setFiles([]);
+      setCaptions({});
       onUploadComplete();
       onOpenChange(false);
     } catch (err: any) {
@@ -66,7 +77,7 @@ export function PhotoUploadDialog({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm">
-      <div className="glass-card max-w-2xl w-full p-8 max-h-[90vh] overflow-y-auto">
+      <div className="bg-white/90 backdrop-blur-md rounded-2xl shadow-2xl border border-white/30 max-w-2xl w-full p-8 max-h-[90vh] overflow-y-auto">
         {/* Header */}
         <div className="flex items-center justify-between mb-6">
           <h2 className="text-3xl font-bold text-navy-900">Upload Photos</h2>
@@ -130,38 +141,47 @@ export function PhotoUploadDialog({
                 </span>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+              <div className="space-y-3">
                 {files.map((file, index) => (
                   <div
                     key={index}
-                    className="flex items-center gap-3 p-3 bg-white/60 hover:bg-white/80 rounded-lg border border-gray-200 group transition-colors"
+                    className="p-4 bg-white/60 hover:bg-white/80 rounded-lg border border-gray-200 group transition-colors"
                   >
-                    <div className="flex-shrink-0 w-10 h-10 bg-navy-900/10 rounded-lg flex items-center justify-center">
-                      <ImageIcon className="w-5 h-5 text-navy-900" />
+                    <div className="flex items-center gap-3 mb-3">
+                      <div className="flex-shrink-0 w-10 h-10 bg-navy-900/10 rounded-lg flex items-center justify-center">
+                        <ImageIcon className="w-5 h-5 text-navy-900" />
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <p className="text-sm font-medium text-gray-900 truncate">
+                          {file.name}
+                        </p>
+                        <p className="text-xs text-gray-500">
+                          {(file.size / 1024 / 1024).toFixed(2)} MB
+                        </p>
+                      </div>
+                      {index === 0 && (
+                        <span className="flex-shrink-0 text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded-full font-medium">
+                          Primary
+                        </span>
+                      )}
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          removeFile(index);
+                        }}
+                        className="flex-shrink-0 text-gray-400 hover:text-red-600 opacity-0 group-hover:opacity-100 transition-all p-1 hover:bg-red-50 rounded"
+                        aria-label="Remove file"
+                      >
+                        <X className="w-5 h-5" />
+                      </button>
                     </div>
-                    <div className="flex-1 min-w-0">
-                      <p className="text-sm font-medium text-gray-900 truncate">
-                        {file.name}
-                      </p>
-                      <p className="text-xs text-gray-500">
-                        {(file.size / 1024 / 1024).toFixed(2)} MB
-                      </p>
-                    </div>
-                    {index === 0 && (
-                      <span className="flex-shrink-0 text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded-full font-medium">
-                        Primary
-                      </span>
-                    )}
-                    <button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        removeFile(index);
-                      }}
-                      className="flex-shrink-0 text-gray-400 hover:text-red-600 opacity-0 group-hover:opacity-100 transition-all p-1 hover:bg-red-50 rounded"
-                      aria-label="Remove file"
-                    >
-                      <X className="w-5 h-5" />
-                    </button>
+                    <input
+                      type="text"
+                      placeholder="Add a caption (optional)"
+                      value={captions[index] || ''}
+                      onChange={(e) => updateCaption(index, e.target.value)}
+                      className="w-full px-3 py-2 text-sm rounded-lg border border-gray-300 bg-white focus:outline-none focus:ring-2 focus:ring-navy-900 focus:border-transparent"
+                    />
                   </div>
                 ))}
               </div>

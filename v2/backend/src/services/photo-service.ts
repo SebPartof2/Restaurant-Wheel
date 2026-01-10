@@ -34,7 +34,8 @@ export class PhotoService {
     file: File,
     uploadedByUserId: number,
     isPrimary: boolean = false,
-    displayOrder: number = 0
+    displayOrder: number = 0,
+    caption: string | null = null
   ): Promise<RestaurantPhoto> {
     // Validate file
     this.validateFile(file);
@@ -65,8 +66,8 @@ export class PhotoService {
     // Save metadata to D1
     const result = await this.db.execute(
       `INSERT INTO restaurant_photos
-       (restaurant_id, r2_key, filename, mime_type, file_size, width, height, is_primary, uploaded_by_user_id, display_order)
-       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+       (restaurant_id, r2_key, filename, mime_type, file_size, width, height, is_primary, uploaded_by_user_id, display_order, caption)
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
       [
         restaurantId,
         originalKey,
@@ -78,6 +79,7 @@ export class PhotoService {
         isPrimary ? 1 : 0,
         uploadedByUserId,
         displayOrder,
+        caption,
       ]
     );
 

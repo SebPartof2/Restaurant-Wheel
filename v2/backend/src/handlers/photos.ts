@@ -19,6 +19,7 @@ export async function handleUploadPhoto(c: Context) {
     const file = formData.get('file') as File;
     const isPrimary = formData.get('is_primary') === 'true';
     const displayOrder = parseInt(formData.get('display_order') as string) || 0;
+    const caption = formData.get('caption') as string | null;
 
     if (!file) {
       return c.json({ error: 'No file provided' }, 400);
@@ -37,7 +38,8 @@ export async function handleUploadPhoto(c: Context) {
       file,
       user.id,
       isPrimary,
-      displayOrder
+      displayOrder,
+      caption
     );
 
     return c.json({ photo }, 201);
