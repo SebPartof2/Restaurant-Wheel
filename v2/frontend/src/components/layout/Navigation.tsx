@@ -30,8 +30,9 @@ export function Navigation() {
     <header className="glass-nav fixed top-0 left-0 right-0 z-40 px-4 md:px-8 py-4">
       <div className="max-w-7xl mx-auto flex items-center justify-between">
         {/* Logo */}
-        <Link to="/" className="text-2xl font-bold text-navy-900">
-          The Wheel v2
+        <Link to="/" className="text-2xl font-bold text-navy-900 flex items-center gap-2">
+          <span className="text-3xl">🎡</span>
+          <span>The Wheel</span>
         </Link>
 
         {/* Desktop Navigation */}
