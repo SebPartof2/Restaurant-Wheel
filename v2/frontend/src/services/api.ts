@@ -238,10 +238,12 @@ class ApiClient {
   async uploadPhoto(
     restaurantId: number,
     file: File,
+    isPrimary: boolean = false,
     caption?: string
   ): Promise<{ photo: RestaurantPhoto }> {
     const formData = new FormData();
-    formData.append('photo', file);
+    formData.append('file', file);
+    formData.append('is_primary', isPrimary ? 'true' : 'false');
     if (caption) formData.append('caption', caption);
 
     const response = await fetch(

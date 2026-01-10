@@ -1,6 +1,7 @@
 import { useState, useCallback } from 'react';
 import { useDropzone } from 'react-dropzone';
 import { Upload, X, Image as ImageIcon } from 'lucide-react';
+import { apiClient } from '../../services/api';
 
 interface PhotoUploadDialogProps {
   restaurantId: number;
@@ -47,20 +48,8 @@ export function PhotoUploadDialog({
 
     try {
       for (const file of files) {
-        const formData = new FormData();
-        formData.append('file', file);
-        formData.append('is_primary', files.indexOf(file) === 0 ? 'true' : 'false');
-
-        const response = await fetch(`/api/restaurants/${restaurantId}/photos`, {
-          method: 'POST',
-          body: formData,
-          credentials: 'include',
-        });
-
-        if (!response.ok) {
-          const data = await response.json();
-          throw new Error(data.error || 'Failed to upload photo');
-        }
+        const isPrimary = files.indexOf(file) === 0;
+        await apiClient.uploadPhoto(restaurantId, file, isPrimary);
       }
 
       setFiles([]);

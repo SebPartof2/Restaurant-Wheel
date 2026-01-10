@@ -45,12 +45,14 @@ export function useUploadPhoto() {
     mutationFn: ({
       restaurantId,
       file,
+      isPrimary,
       caption,
     }: {
       restaurantId: number;
       file: File;
+      isPrimary?: boolean;
       caption?: string;
-    }) => apiClient.uploadPhoto(restaurantId, file, caption),
+    }) => apiClient.uploadPhoto(restaurantId, file, isPrimary, caption),
     onSuccess: (_result, variables) => {
       // Invalidate photos for this restaurant
       queryClient.invalidateQueries({

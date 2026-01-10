@@ -288,6 +288,7 @@ export class PhotoService {
       is_primary: Boolean(photo.is_primary),
       uploaded_by_user_id: photo.uploaded_by_user_id,
       display_order: photo.display_order,
+      caption: photo.caption || null,
       created_at: photo.created_at,
       thumbnail_url: thumbnailUrl,
       medium_url: mediumUrl,
