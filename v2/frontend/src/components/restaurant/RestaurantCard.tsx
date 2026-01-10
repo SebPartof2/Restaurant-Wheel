@@ -1,4 +1,4 @@
-import { Star, MapPin, Calendar } from 'lucide-react';
+import { Star, MapPin, Calendar, ExternalLink } from 'lucide-react';
 import type { Restaurant } from '../../../../shared/types';
 
 interface RestaurantCardProps {
@@ -98,9 +98,23 @@ export function RestaurantCard({ restaurant, onClick }: RestaurantCardProps) {
           </div>
         )}
 
-        <p className="text-xs text-gray-500 mt-3">
-          Nominated by {restaurant.nominated_by?.name || 'User'}
-        </p>
+        <div className="flex items-center justify-between mt-3">
+          <p className="text-xs text-gray-500">
+            Nominated by {restaurant.nominated_by?.name || 'User'}
+          </p>
+          {restaurant.menu_link && (
+            <a
+              href={restaurant.menu_link}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={(e) => e.stopPropagation()}
+              className="text-navy-900 hover:text-navy-700 transition-colors"
+              title="View Menu"
+            >
+              <ExternalLink className="w-4 h-4" />
+            </a>
+          )}
+        </div>
       </div>
     </div>
   );

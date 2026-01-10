@@ -27,7 +27,7 @@ export function WheelResult({ restaurant, onConfirm, onCancel, isConfirming }: W
           <p className="text-lg text-gray-700 text-center mb-4">{restaurant.address}</p>
 
           <div className="flex items-center justify-center gap-4 mb-4">
-            {restaurant.is_fast_food && (
+            {!!restaurant.is_fast_food && (
               <span className="px-3 py-1 rounded-full text-sm font-medium bg-orange-100 text-orange-800">
                 Fast Food
               </span>

@@ -162,7 +162,7 @@ export function RestaurantDetailPage() {
             <span className={`px-3 py-1 rounded-full text-sm font-medium ${getStateBadgeClass(restaurant.state)}`}>
               {restaurant.state.charAt(0).toUpperCase() + restaurant.state.slice(1)}
             </span>
-            {restaurant.is_fast_food && (
+            {!!restaurant.is_fast_food && (
               <span className="px-3 py-1 rounded-full text-sm font-medium bg-orange-100 text-orange-800">
                 Fast Food
               </span>
