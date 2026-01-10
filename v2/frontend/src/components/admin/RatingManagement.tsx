@@ -71,28 +71,28 @@ export function RatingManagement({ restaurantId, restaurantName }: RatingManagem
   };
 
   return (
-    <div className="glass-card p-6">
+    <div className="glass-card p-6 mt-6">
       <h3 className="text-xl font-bold text-navy-900 mb-4">
         Rating & Attendance for {restaurantName}
       </h3>
 
-      <div className="overflow-x-auto">
-        <table className="w-full">
-          <thead className="border-b border-gray-200">
-            <tr>
-              <th className="text-left py-3 px-2 text-sm font-semibold text-gray-700">
+      <div className="overflow-x-auto -mx-6 px-6">
+        <table className="w-full min-w-[800px]">
+          <thead>
+            <tr className="border-b-2 border-gray-300">
+              <th className="text-left py-3 px-4 text-sm font-semibold text-gray-700 bg-white/30">
                 User
               </th>
-              <th className="text-center py-3 px-2 text-sm font-semibold text-gray-700">
+              <th className="text-center py-3 px-4 text-sm font-semibold text-gray-700 bg-white/30">
                 Attended
               </th>
-              <th className="text-center py-3 px-2 text-sm font-semibold text-gray-700">
+              <th className="text-center py-3 px-4 text-sm font-semibold text-gray-700 bg-white/30">
                 Current Rating
               </th>
-              <th className="text-left py-3 px-2 text-sm font-semibold text-gray-700">
+              <th className="text-left py-3 px-4 text-sm font-semibold text-gray-700 bg-white/30">
                 New Rating
               </th>
-              <th className="text-right py-3 px-2 text-sm font-semibold text-gray-700">
+              <th className="text-right py-3 px-4 text-sm font-semibold text-gray-700 bg-white/30">
                 Actions
               </th>
             </tr>
@@ -101,14 +101,14 @@ export function RatingManagement({ restaurantId, restaurantName }: RatingManagem
             {users.map((user) => {
               const visit = visitMap.get(user.id!);
               return (
-                <tr key={user.id} className="border-b border-gray-100 hover:bg-white/30">
-                  <td className="py-3 px-2 text-sm font-medium text-gray-900">
+                <tr key={user.id} className="border-b border-gray-200 hover:bg-white/30 transition-colors">
+                  <td className="py-4 px-4 text-sm font-medium text-gray-900">
                     {user.name || user.email}
                   </td>
-                  <td className="py-3 px-2 text-center">
+                  <td className="py-4 px-4 text-center">
                     <button
                       onClick={() => handleAttendanceToggle(user.id!)}
-                      className={`p-2 rounded-lg transition-colors ${
+                      className={`inline-flex items-center justify-center p-2 rounded-lg transition-colors ${
                         visit?.attended
                           ? 'bg-green-100 text-green-700 hover:bg-green-200'
                           : 'bg-gray-100 text-gray-400 hover:bg-gray-200'
@@ -122,10 +122,10 @@ export function RatingManagement({ restaurantId, restaurantName }: RatingManagem
                       )}
                     </button>
                   </td>
-                  <td className="py-3 px-2 text-center text-sm text-gray-700">
+                  <td className="py-4 px-4 text-center text-sm font-medium text-gray-900">
                     {visit?.rating ? visit.rating.toFixed(1) : '-'}
                   </td>
-                  <td className="py-3 px-2">
+                  <td className="py-4 px-4">
                     <input
                       type="number"
                       min="0"
@@ -134,14 +134,14 @@ export function RatingManagement({ restaurantId, restaurantName }: RatingManagem
                       value={ratings[user.id!] || ''}
                       onChange={(e) => handleRatingChange(user.id!, e.target.value)}
                       placeholder="0.0 - 10.0"
-                      className="w-32 px-3 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-navy-900"
+                      className="w-full max-w-[160px] px-3 py-2 rounded-lg border border-gray-300 bg-white focus:outline-none focus:ring-2 focus:ring-navy-900 focus:border-transparent"
                     />
                   </td>
-                  <td className="py-3 px-2 text-right">
+                  <td className="py-4 px-4 text-right">
                     <button
                       onClick={() => handleSaveRating(user.id!)}
                       disabled={!ratings[user.id!] || saving}
-                      className="flex items-center gap-1 px-3 py-2 rounded-lg bg-navy-900 text-white font-medium hover:bg-navy-800 transition-colors disabled:opacity-50 disabled:cursor-not-allowed ml-auto"
+                      className="inline-flex items-center gap-1 px-4 py-2 rounded-lg bg-navy-900 text-white font-medium hover:bg-navy-800 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                     >
                       <Save className="w-4 h-4" />
                       Save

@@ -190,11 +190,17 @@ export async function handleMarkVisited(c: Context<{ Bindings: Env; Variables: R
 export async function handleConfirmUpcoming(c: Context<{ Bindings: Env; Variables: RequestContext }>) {
   try {
     const id = parseInt(c.req.param('id'));
+    const body = await c.req.json<{ reservation_datetime?: string }>();
 
     const db = createDbService(c.env);
     const restaurantService = new RestaurantService(db);
 
-    const restaurant = await restaurantService.updateRestaurant(id, { state: 'upcoming' });
+    const updateData: any = { state: 'upcoming' };
+    if (body.reservation_datetime) {
+      updateData.reservation_datetime = body.reservation_datetime;
+    }
+
+    const restaurant = await restaurantService.updateRestaurant(id, updateData);
 
     return c.json({ restaurant });
   } catch (error) {
