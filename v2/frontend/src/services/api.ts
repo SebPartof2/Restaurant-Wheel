@@ -185,9 +185,9 @@ class ApiClient {
    * Spin the wheel (admin only)
    */
   async spinWheel(excludeFastFood?: boolean): Promise<SpinWheelResponse> {
-    const query = excludeFastFood ? '?exclude_fast_food=true' : '';
-    return this.fetch(`/wheel/spin${query}`, {
+    return this.fetch('/wheel/spin', {
       method: 'POST',
+      body: JSON.stringify({ exclude_fast_food: excludeFastFood || false }),
     });
   }
 
