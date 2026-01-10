@@ -453,7 +453,7 @@ export function RestaurantDetailPage() {
         </div>
 
         {photos.length > 0 ? (
-          <PhotoGallery photos={photos} restaurantName={restaurant.name} />
+          <PhotoGallery photos={photos} restaurantName={restaurant.name} restaurantId={restaurant.id!} />
         ) : (
           <div className="text-center py-12 text-gray-500">
             <p>No photos yet. Be the first to upload!</p>

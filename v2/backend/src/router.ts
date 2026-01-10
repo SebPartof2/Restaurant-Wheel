@@ -91,7 +91,7 @@ export function createRouter() {
   // Photo routes under restaurants
   restaurants.post('/:id/photos', requireAuth, handleUploadPhoto);
   restaurants.get('/:id/photos', handleGetPhotos);
-  restaurants.patch('/:id/photos/:photoId', requireAuth, requireAdmin, handleUpdatePhoto);
+  restaurants.patch('/:id/photos/:photoId', requireAuth, handleUpdatePhoto);
   restaurants.delete('/:id/photos/:photoId', requireAuth, handleDeletePhoto);
 
   app.route('/api/restaurants', restaurants);

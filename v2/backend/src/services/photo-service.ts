@@ -290,21 +290,25 @@ export class PhotoService {
   }
 
   /**
+   * Update photo caption
+   */
+  async updatePhotoCaption(photoId: number, caption: string | null): Promise<RestaurantPhoto> {
+    await this.db.run(
+      'UPDATE restaurant_photos SET caption = ? WHERE id = ?',
+      [caption, photoId]
+    );
+    return this.getPhotoById(photoId);
+  }
+
+  /**
    * Format photo data for API response
    */
   private formatPhoto(photo: any): RestaurantPhoto {
     const baseUrl = this.publicUrl;
     const r2Key = photo.r2_key;
 
-    // Generate URLs for different sizes
-    // For now, we're using the original URL for all sizes
-    // In production, you'd use Cloudflare's Image Resizing with URL parameters
+    // Use original URL for all sizes - Image Resizing may not be enabled
     const originalUrl = `${baseUrl}/${r2Key}`;
-
-    // Cloudflare Image Resizing format: /cdn-cgi/image/width=300,format=webp/path
-    // Or use custom variants if configured
-    const thumbnailUrl = `${baseUrl}/cdn-cgi/image/width=300,format=webp/${r2Key}`;
-    const mediumUrl = `${baseUrl}/cdn-cgi/image/width=800,format=webp/${r2Key}`;
 
     return {
       id: photo.id,
@@ -320,8 +324,8 @@ export class PhotoService {
       display_order: photo.display_order,
       caption: photo.caption || null,
       created_at: photo.created_at,
-      thumbnail_url: thumbnailUrl,
-      medium_url: mediumUrl,
+      thumbnail_url: originalUrl,
+      medium_url: originalUrl,
       original_url: originalUrl,
       uploaded_by: photo.uploader_id
         ? {

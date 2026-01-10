@@ -310,12 +310,12 @@ class ApiClient {
   }
 
   /**
-   * Update photo caption (admin only)
+   * Update photo metadata
    */
   async updatePhoto(
     restaurantId: number,
     photoId: number,
-    data: { caption?: string }
+    data: { caption?: string; is_primary?: boolean }
   ): Promise<{ photo: RestaurantPhoto }> {
     return this.fetch(`/restaurants/${restaurantId}/photos/${photoId}`, {
       method: 'PATCH',

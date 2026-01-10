@@ -80,7 +80,7 @@ export async function handleGetPhotos(c: Context) {
 
 /**
  * PATCH /api/restaurants/:id/photos/:photoId
- * Update photo metadata (is_primary, display_order)
+ * Update photo metadata (is_primary, display_order, caption)
  */
 export async function handleUpdatePhoto(c: Context) {
   try {
@@ -91,12 +91,32 @@ export async function handleUpdatePhoto(c: Context) {
       return c.json({ error: 'Unauthorized' }, 401);
     }
 
-    // Only admins can update photo metadata
+    const photoService = new PhotoService(
+      c.get('db'),
+      c.env.PHOTOS_BUCKET,
+      c.env.R2_PUBLIC_URL
+    );
+
+    // Get photo to check ownership
+    const existingPhoto = await photoService.getPhotoById(photoId);
+
+    const body = await c.req.json();
+
+    // Caption can be updated by owner or admin
+    if (body.caption !== undefined) {
+      if (!user.is_admin && existingPhoto.uploaded_by_user_id !== user.id) {
+        return c.json({ error: 'You can only edit your own photo captions' }, 403);
+      }
+      const caption = body.caption?.trim() || null;
+      const photo = await photoService.updatePhotoCaption(photoId, caption);
+      return c.json({ photo });
+    }
+
+    // is_primary and display_order require admin
     if (!user.is_admin) {
       return c.json({ error: 'Admin access required' }, 403);
     }
 
-    const body = await c.req.json();
     const updates: { is_primary?: boolean; display_order?: number } = {};
 
     if (body.is_primary !== undefined) {
@@ -106,12 +126,6 @@ export async function handleUpdatePhoto(c: Context) {
     if (body.display_order !== undefined) {
       updates.display_order = parseInt(body.display_order);
     }
-
-    const photoService = new PhotoService(
-      c.get('db'),
-      c.env.PHOTOS_BUCKET,
-      c.env.R2_PUBLIC_URL
-    );
 
     const photo = await photoService.updatePhotoMetadata(photoId, updates);
 

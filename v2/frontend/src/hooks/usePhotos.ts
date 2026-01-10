@@ -65,7 +65,7 @@ export function useUploadPhoto() {
 }
 
 /**
- * Hook to update photo caption (admin only)
+ * Hook to update photo metadata (caption, is_primary)
  */
 export function useUpdatePhoto() {
   const queryClient = useQueryClient();
@@ -75,11 +75,13 @@ export function useUpdatePhoto() {
       restaurantId,
       photoId,
       caption,
+      is_primary,
     }: {
       restaurantId: number;
       photoId: number;
       caption?: string;
-    }) => apiClient.updatePhoto(restaurantId, photoId, { caption }),
+      is_primary?: boolean;
+    }) => apiClient.updatePhoto(restaurantId, photoId, { caption, is_primary }),
     onSuccess: (_result, variables) => {
       // Invalidate photos for this restaurant
       queryClient.invalidateQueries({
