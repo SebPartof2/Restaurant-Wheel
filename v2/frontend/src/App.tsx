@@ -5,6 +5,9 @@ import { LoginPage } from './components/auth/LoginPage';
 import { CallbackPage } from './components/auth/CallbackPage';
 import { ProtectedRoute } from './components/auth/ProtectedRoute';
 import { DashboardPage } from './pages/DashboardPage';
+import { NominationsPage } from './pages/NominationsPage';
+import { NewNominationPage } from './pages/NewNominationPage';
+import { RestaurantDetailPage } from './pages/RestaurantDetailPage';
 import { UserManagement } from './components/admin/UserManagement';
 
 // Placeholder pages (to be implemented in future phases)
@@ -55,7 +58,7 @@ function App() {
               path="/nominations"
               element={
                 <ProtectedRoute>
-                  <PlaceholderPage title="Restaurants" />
+                  <NominationsPage />
                 </ProtectedRoute>
               }
             />
@@ -63,7 +66,7 @@ function App() {
               path="/nominations/new"
               element={
                 <ProtectedRoute>
-                  <PlaceholderPage title="New Nomination" />
+                  <NewNominationPage />
                 </ProtectedRoute>
               }
             />
@@ -71,7 +74,7 @@ function App() {
               path="/nominations/:id"
               element={
                 <ProtectedRoute>
-                  <PlaceholderPage title="Restaurant Detail" />
+                  <RestaurantDetailPage />
                 </ProtectedRoute>
               }
             />
