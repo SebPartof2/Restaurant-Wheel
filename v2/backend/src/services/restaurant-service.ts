@@ -10,7 +10,12 @@ export class RestaurantService {
   /**
    * Get all restaurants with optional filtering
    */
-  async getRestaurants(state?: RestaurantState, userId?: number): Promise<Restaurant[]> {
+  async getRestaurants(
+    state?: RestaurantState,
+    userId?: number,
+    search?: string,
+    sort?: 'date' | 'rating' | 'name'
+  ): Promise<Restaurant[]> {
     let query = `
       SELECT r.*,
              u.id as nominator_id, u.email as nominator_email, u.name as nominator_name,
@@ -20,16 +25,41 @@ export class RestaurantService {
       LEFT JOIN users u ON r.nominated_by_user_id = u.id
     `;
     const params: any[] = [];
+    const conditions: string[] = [];
 
     if (state) {
-      query += ' WHERE r.state = ?';
+      conditions.push('r.state = ?');
       params.push(state);
-    } else if (userId) {
-      query += ' WHERE r.nominated_by_user_id = ?';
+    }
+
+    if (userId) {
+      conditions.push('r.nominated_by_user_id = ?');
       params.push(userId);
     }
 
-    query += ' ORDER BY r.created_at DESC';
+    if (search) {
+      conditions.push('(LOWER(r.name) LIKE ? OR LOWER(r.address) LIKE ?)');
+      const searchPattern = `%${search.toLowerCase()}%`;
+      params.push(searchPattern, searchPattern);
+    }
+
+    if (conditions.length > 0) {
+      query += ' WHERE ' + conditions.join(' AND ');
+    }
+
+    // Apply sorting
+    switch (sort) {
+      case 'name':
+        query += ' ORDER BY LOWER(r.name) ASC';
+        break;
+      case 'rating':
+        query += ' ORDER BY r.average_rating DESC, r.name ASC';
+        break;
+      case 'date':
+      default:
+        query += ' ORDER BY r.created_at DESC';
+        break;
+    }
 
     const rows = await this.db.execute<any>(query, params);
 

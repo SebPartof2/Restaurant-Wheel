@@ -11,7 +11,7 @@ interface RestaurantFiltersProps {
 export function RestaurantFilters({ onFilterChange }: RestaurantFiltersProps) {
   const [state, setState] = useState<'pending' | 'active' | 'upcoming' | 'visited' | 'all'>('all');
   const [search, setSearch] = useState('');
-  const [sort, setSort] = useState<'date' | 'rating' | 'name'>('date');
+  const [sort, setSort] = useState<'date' | 'rating' | 'name'>('name');
 
   const handleStateChange = (newState: typeof state) => {
     setState(newState);

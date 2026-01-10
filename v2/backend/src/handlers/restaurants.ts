@@ -13,13 +13,17 @@ export async function handleGetRestaurants(c: Context<{ Bindings: Env; Variables
   try {
     const state = c.req.query('state') as any;
     const userId = c.req.query('user_id');
+    const search = c.req.query('search');
+    const sort = c.req.query('sort') as 'date' | 'rating' | 'name' | undefined;
 
     const db = createDbService(c.env);
     const restaurantService = new RestaurantService(db);
 
     const restaurants = await restaurantService.getRestaurants(
       state || undefined,
-      userId ? parseInt(userId) : undefined
+      userId ? parseInt(userId) : undefined,
+      search || undefined,
+      sort || undefined
     );
 
     return c.json({ restaurants });

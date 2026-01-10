@@ -10,7 +10,7 @@ export function NominationsPage() {
     state?: 'pending' | 'active' | 'upcoming' | 'visited';
     search?: string;
     sort?: 'date' | 'rating' | 'name';
-  }>({});
+  }>({ sort: 'name' });
 
   const { data, isLoading, error } = useRestaurants(filters);
 
