@@ -8,12 +8,6 @@
 -- Migrate all users with their existing password hashes
 -- OAuth fields will be populated when they first login with S-Auth
 
-INSERT INTO users (id, email, password_hash, name, is_admin, is_whitelisted, is_provisional, signup_code, created_at) VALUES
-(1, 'sebpartof2@gmail.com', '4af1d7d982da964ead8c55770155e270d27fa82f76e2e3334a98381729f92d85', 'Sebastian', 1, 1, 0, NULL, '2025-12-13 19:58:50'),
-(2, 'stephanie.kendall@gmail.com', '19e74589bcb84d1e5ceb387c17d327d4e40c5946df4cdbd9090db7dfb4aae941', 'Stephanie', 0, 1, 0, NULL, '2025-12-13 20:20:11'),
-(3, 'huikang00@gmail.com', '0c93429aca7ff69f83c2c84de3ed248303f2a924140cd60cb23cbec34e62c862', 'Hui', 0, 1, 0, NULL, '2025-12-13 20:23:25'),
-(4, 'theodore.kang00@gmail.com', '', 'Theodore', 0, 1, 1, 'BNV78', '2025-12-13 20:23:39');
-
 -- ============================================================
 -- RESTAURANTS MIGRATION
 -- ============================================================

@@ -1,6 +1,7 @@
 name = "restaurant-wheel-api"
 main = "src/index.ts"
 compatibility_date = "2024-01-01"
+account_id = "cb84ce701671910e192350d426ba28b7"
 
 [env.production]
 name = "restaurant-wheel-api"

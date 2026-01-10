@@ -1,4 +1,4 @@
-import { Star, MapPin, Calendar, Image as ImageIcon } from 'lucide-react';
+import { Star, MapPin, Calendar } from 'lucide-react';
 import type { Restaurant } from '../../../../shared/types';
 
 interface RestaurantCardProps {
@@ -35,7 +35,7 @@ export function RestaurantCard({ restaurant, onClick }: RestaurantCardProps) {
       }}
     >
       {/* Photo Hero */}
-      <div className="relative aspect-video bg-gradient-to-br from-gray-100 to-gray-200">
+      <div className="relative aspect-video bg-gradient-to-br from-navy-900 to-navy-800">
         {restaurant.primary_photo ? (
           <img
             src={restaurant.primary_photo.thumbnail_url}
@@ -44,8 +44,10 @@ export function RestaurantCard({ restaurant, onClick }: RestaurantCardProps) {
             loading="lazy"
           />
         ) : (
-          <div className="w-full h-full flex items-center justify-center">
-            <ImageIcon className="w-12 h-12 text-gray-300" />
+          <div className="w-full h-full flex items-center justify-center p-4">
+            <h3 className="text-white text-xl md:text-2xl font-bold text-center line-clamp-3">
+              {restaurant.name}
+            </h3>
           </div>
         )}
 
@@ -57,7 +59,7 @@ export function RestaurantCard({ restaurant, onClick }: RestaurantCardProps) {
         </div>
 
         {/* Fast Food Badge */}
-        {restaurant.is_fast_food && (
+        {!!restaurant.is_fast_food && (
           <div className="absolute top-2 left-2">
             <span className="bg-orange-500/90 text-white px-3 py-1 rounded-full text-sm font-medium shadow-lg backdrop-blur-sm">
               Fast Food
