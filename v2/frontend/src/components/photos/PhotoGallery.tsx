@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { createPortal } from 'react-dom';
-import { X, ChevronLeft, ChevronRight, Star, Trash2, Edit2, Check } from 'lucide-react';
+import { X, ChevronLeft, ChevronRight, Trash2, Edit2, Check } from 'lucide-react';
 import { formatDistanceToNow } from 'date-fns';
 import type { RestaurantPhoto } from '../../../../shared/types';
 import { useUpdatePhoto, useDeletePhoto } from '../../hooks/usePhotos';
@@ -70,10 +70,6 @@ export function PhotoGallery({ photos, restaurantName, restaurantId }: PhotoGall
     }
   };
 
-  const handleSetPrimary = (photoId: number) => {
-    updatePhoto.mutate({ restaurantId, photoId, is_primary: true });
-  };
-
   const handleEditCaption = (photo: RestaurantPhoto) => {
     setCaptionValue(photo.caption || '');
     setEditingCaption(true);
@@ -121,14 +117,6 @@ export function PhotoGallery({ photos, restaurantName, restaurantId }: PhotoGall
             />
             <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-200" />
 
-            {photo.is_primary && (
-              <div className="absolute top-2 right-2">
-                <span className="bg-navy-900 text-white text-xs px-2 py-1 rounded-full flex items-center gap-1">
-                  <Star className="w-3 h-3" />
-                  Primary
-                </span>
-              </div>
-            )}
 
             <div className="absolute bottom-0 left-0 right-0 p-3 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity">
               <div className="text-white text-sm">
@@ -223,17 +211,6 @@ export function PhotoGallery({ photos, restaurantName, restaurantId }: PhotoGall
 
                 {/* Action Buttons */}
                 <div className="flex gap-2 flex-shrink-0">
-                  {!!user?.is_admin && !selectedPhoto.is_primary && (
-                    <button
-                      onClick={() => handleSetPrimary(selectedPhoto.id)}
-                      disabled={updatePhoto.isPending}
-                      className="px-3 py-2 bg-navy-900 text-white rounded-lg hover:bg-navy-800 transition-colors text-sm flex items-center gap-1 disabled:opacity-50"
-                      title="Set as primary photo"
-                    >
-                      <Star className="w-4 h-4" />
-                      Set Primary
-                    </button>
-                  )}
                   {canDeletePhoto(selectedPhoto) && (
                     <button
                       onClick={() => handleDelete(selectedPhoto.id)}
@@ -304,9 +281,6 @@ export function PhotoGallery({ photos, restaurantName, restaurantId }: PhotoGall
 
               <div className="mt-2 text-sm text-gray-600">
                 Photo {selectedIndex + 1} of {photos.length}
-                {selectedPhoto.is_primary && (
-                  <span className="ml-2 text-navy-900 font-medium">• Primary Photo</span>
-                )}
               </div>
             </div>
           </div>

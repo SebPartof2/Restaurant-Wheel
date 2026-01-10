@@ -72,7 +72,6 @@ export function RestaurantDetailPage() {
 
   const restaurant = restaurantData.restaurant;
   const photos = photosData?.photos || [];
-  const primaryPhoto = photos.find(p => p.is_primary) || photos[0];
 
   const getStateBadgeClass = (state: string) => {
     switch (state) {
@@ -189,16 +188,6 @@ export function RestaurantDetailPage() {
 
       {/* Hero Section */}
       <div className="glass-card p-8 mb-6">
-        {primaryPhoto && (
-          <div className="mb-6 rounded-lg overflow-hidden">
-            <img
-              src={primaryPhoto.original_url}
-              alt={restaurant.name}
-              className="w-full h-64 object-cover"
-            />
-          </div>
-        )}
-
         <div className="flex items-start justify-between mb-4">
           <div>
             <h1 className="text-4xl font-bold text-navy-900 mb-2">{restaurant.name}</h1>
