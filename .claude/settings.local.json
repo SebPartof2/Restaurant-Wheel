@@ -15,7 +15,8 @@
       "Bash(npm run build:*)",
       "Bash(timeout 10 npm run dev:*)",
       "Bash(npx wrangler deploy)",
-      "Bash(cd:*)"
+      "Bash(cd:*)",
+      "Bash(npx tsc:*)"
     ]
   }
 }

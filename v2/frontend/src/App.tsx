@@ -10,23 +10,12 @@ import { NewNominationPage } from './pages/NewNominationPage';
 import { RestaurantDetailPage } from './pages/RestaurantDetailPage';
 import { WheelPage } from './pages/WheelPage';
 import { StatisticsPage } from './pages/StatisticsPage';
+import { PhotoFeedPage } from './pages/PhotoFeedPage';
 import { UserManagement } from './components/admin/UserManagement';
 import { PendingNominationsPage } from './pages/admin/PendingNominationsPage';
 import { UpcomingRestaurantsPage } from './pages/admin/UpcomingRestaurantsPage';
 import { VisitedRestaurantsPage } from './pages/admin/VisitedRestaurantsPage';
 import { AdminNominatePage } from './pages/admin/AdminNominatePage';
-
-// Placeholder pages (to be implemented in future phases)
-function PlaceholderPage({ title }: { title: string }) {
-  return (
-    <div className="min-h-screen p-8">
-      <div className="glass-card p-8 max-w-4xl mx-auto text-center">
-        <h1 className="text-3xl font-bold mb-4">{title}</h1>
-        <p className="text-gray-600">This page is coming soon in Phase 2-7 of the implementation.</p>
-      </div>
-    </div>
-  );
-}
 
 // Create React Query client
 const queryClient = new QueryClient({
@@ -110,7 +99,7 @@ function App() {
               path="/photos"
               element={
                 <ProtectedRoute>
-                  <PlaceholderPage title="Photo Feed" />
+                  <PhotoFeedPage />
                 </ProtectedRoute>
               }
             />

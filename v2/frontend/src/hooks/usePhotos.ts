@@ -31,6 +31,11 @@ export function usePhotoFeed(params?: {
 }
 
 /**
+ * Alias for usePhotoFeed
+ */
+export const useAllPhotos = usePhotoFeed;
+
+/**
  * Hook to upload a photo
  */
 export function useUploadPhoto() {
