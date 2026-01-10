@@ -106,13 +106,17 @@ export function PhotoGallery({ photos, restaurantName, restaurantId }: PhotoGall
           <button
             key={photo.id}
             onClick={() => setSelectedIndex(index)}
-            className="aspect-square rounded-xl overflow-hidden glass-card-hover group relative focus:outline-none focus:ring-2 focus:ring-navy-900"
+            className="aspect-square rounded-xl overflow-hidden glass-card-hover group relative focus:outline-none focus:ring-2 focus:ring-navy-900 bg-gray-100"
           >
             <img
-              src={photo.thumbnail_url}
+              src={photo.original_url}
               alt={`Photo ${index + 1} of ${restaurantName}`}
               className="w-full h-full object-cover"
               loading="lazy"
+              onError={(e) => {
+                // Hide broken images
+                e.currentTarget.style.display = 'none';
+              }}
             />
             <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-200" />
 
@@ -142,7 +146,7 @@ export function PhotoGallery({ photos, restaurantName, restaurantId }: PhotoGall
       {/* Full-screen carousel */}
       {selectedIndex !== null && selectedPhoto && (
         <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 backdrop-blur-sm"
+          className="fixed inset-0 z-[100] flex items-center justify-center bg-black/90 backdrop-blur-sm"
           onClick={() => {
             setSelectedIndex(null);
             setEditingCaption(false);
