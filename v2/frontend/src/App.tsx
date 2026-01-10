@@ -8,6 +8,7 @@ import { DashboardPage } from './pages/DashboardPage';
 import { NominationsPage } from './pages/NominationsPage';
 import { NewNominationPage } from './pages/NewNominationPage';
 import { RestaurantDetailPage } from './pages/RestaurantDetailPage';
+import { WheelPage } from './pages/WheelPage';
 import { UserManagement } from './components/admin/UserManagement';
 
 // Placeholder pages (to be implemented in future phases)
@@ -84,7 +85,7 @@ function App() {
               path="/wheel"
               element={
                 <ProtectedRoute requireAdmin>
-                  <PlaceholderPage title="The Wheel" />
+                  <WheelPage />
                 </ProtectedRoute>
               }
             />
