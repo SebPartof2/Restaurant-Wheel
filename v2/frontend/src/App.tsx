@@ -9,6 +9,7 @@ import { NominationsPage } from './pages/NominationsPage';
 import { NewNominationPage } from './pages/NewNominationPage';
 import { RestaurantDetailPage } from './pages/RestaurantDetailPage';
 import { WheelPage } from './pages/WheelPage';
+import { StatisticsPage } from './pages/StatisticsPage';
 import { UserManagement } from './components/admin/UserManagement';
 
 // Placeholder pages (to be implemented in future phases)
@@ -95,7 +96,7 @@ function App() {
               path="/statistics"
               element={
                 <ProtectedRoute>
-                  <PlaceholderPage title="Statistics" />
+                  <StatisticsPage />
                 </ProtectedRoute>
               }
             />
