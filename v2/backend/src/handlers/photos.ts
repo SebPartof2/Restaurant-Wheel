@@ -19,11 +19,16 @@ export async function handleUploadPhoto(c: Context) {
     const file = formData.get('file') as File;
     const isPrimary = formData.get('is_primary') === 'true';
     const displayOrder = parseInt(formData.get('display_order') as string) || 0;
-    const caption = formData.get('caption') as string | null;
+    const captionValue = formData.get('caption');
+    const caption = captionValue && typeof captionValue === 'string' && captionValue.trim() !== ''
+      ? captionValue.trim()
+      : null;
 
     if (!file) {
       return c.json({ error: 'No file provided' }, 400);
     }
+
+    console.log('Upload photo params:', { restaurantId, userId: user.id, isPrimary, displayOrder, caption, fileName: file.name });
 
     // Initialize PhotoService
     const photoService = new PhotoService(
@@ -45,6 +50,7 @@ export async function handleUploadPhoto(c: Context) {
     return c.json({ photo }, 201);
   } catch (error: any) {
     console.error('Error uploading photo:', error);
+    console.error('Error stack:', error.stack);
     return c.json({ error: error.message || 'Failed to upload photo' }, 500);
   }
 }

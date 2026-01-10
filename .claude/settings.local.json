@@ -17,7 +17,9 @@
       "Bash(npx wrangler deploy)",
       "Bash(cd:*)",
       "Bash(npx tsc:*)",
-      "Bash(npx wrangler d1 execute:*)"
+      "Bash(npx wrangler d1 execute:*)",
+      "Bash(timeout 60 npx wrangler tail:*)",
+      "Bash(npm run deploy:*)"
     ]
   }
 }

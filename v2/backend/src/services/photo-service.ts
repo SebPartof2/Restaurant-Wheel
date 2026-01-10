@@ -37,54 +37,82 @@ export class PhotoService {
     displayOrder: number = 0,
     caption: string | null = null
   ): Promise<RestaurantPhoto> {
-    // Validate file
-    this.validateFile(file);
+    try {
+      console.log('PhotoService.uploadPhoto starting', { restaurantId, uploadedByUserId, isPrimary, displayOrder, caption });
 
-    // Generate UUID for unique filename
-    const uuid = uuidv4();
-    const ext = this.getExtension(file.type);
-    const originalKey = `restaurants/${restaurantId}/${uuid}-original.${ext}`;
+      // Validate file
+      this.validateFile(file);
+      console.log('File validated');
 
-    // Get image dimensions (if available)
-    const dimensions = await this.getImageDimensions(file);
+      // Generate UUID for unique filename
+      const uuid = uuidv4();
+      const ext = this.getExtension(file.type);
+      const originalKey = `restaurants/${restaurantId}/${uuid}-original.${ext}`;
+      console.log('Generated key:', originalKey);
 
-    // Upload original to R2
-    await this.bucket.put(originalKey, file.stream(), {
-      httpMetadata: {
-        contentType: file.type,
-      },
-    });
+      // Get image dimensions (if available)
+      const dimensions = await this.getImageDimensions(file);
+      console.log('Dimensions:', dimensions);
 
-    // If setting as primary, unset other primary photos for this restaurant
-    if (isPrimary) {
-      await this.db.execute(
-        'UPDATE restaurant_photos SET is_primary = 0 WHERE restaurant_id = ?',
-        [restaurantId]
-      );
-    }
+      // Upload original to R2
+      console.log('Uploading to R2...');
+      await this.bucket.put(originalKey, file.stream(), {
+        httpMetadata: {
+          contentType: file.type,
+        },
+      });
+      console.log('R2 upload complete');
 
-    // Save metadata to D1
-    const result = await this.db.execute(
-      `INSERT INTO restaurant_photos
-       (restaurant_id, r2_key, filename, mime_type, file_size, width, height, is_primary, uploaded_by_user_id, display_order, caption)
-       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
-      [
+      // If setting as primary, unset other primary photos for this restaurant
+      if (isPrimary) {
+        console.log('Unsetting other primary photos');
+        await this.db.run(
+          'UPDATE restaurant_photos SET is_primary = 0 WHERE restaurant_id = ?',
+          [restaurantId]
+        );
+      }
+
+      // Save metadata to D1
+      console.log('Saving to database with params:', {
         restaurantId,
         originalKey,
-        file.name,
-        file.type,
-        file.size,
-        dimensions.width,
-        dimensions.height,
-        isPrimary ? 1 : 0,
+        fileName: file.name,
+        mimeType: file.type,
+        fileSize: file.size,
+        width: dimensions.width,
+        height: dimensions.height,
+        isPrimary: isPrimary ? 1 : 0,
         uploadedByUserId,
         displayOrder,
         caption,
-      ]
-    );
+      });
 
-    const photoId = result.lastRowId;
-    return this.getPhotoById(photoId);
+      const photoId = await this.db.insert(
+        `INSERT INTO restaurant_photos
+         (restaurant_id, r2_key, filename, mime_type, file_size, width, height, is_primary, uploaded_by_user_id, display_order, caption)
+         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+        [
+          restaurantId,
+          originalKey,
+          file.name,
+          file.type,
+          file.size,
+          dimensions.width,
+          dimensions.height,
+          isPrimary ? 1 : 0,
+          uploadedByUserId,
+          displayOrder,
+          caption,
+        ]
+      );
+
+      console.log('Inserted photo with ID:', photoId);
+
+      return this.getPhotoById(photoId);
+    } catch (error) {
+      console.error('PhotoService.uploadPhoto error:', error);
+      throw error;
+    }
   }
 
   /**
@@ -148,7 +176,7 @@ export class PhotoService {
 
     // If setting as primary, unset other primary photos for this restaurant
     if (updates.is_primary) {
-      await this.db.execute(
+      await this.db.run(
         'UPDATE restaurant_photos SET is_primary = 0 WHERE restaurant_id = ?',
         [photo.restaurant_id]
       );
@@ -170,7 +198,7 @@ export class PhotoService {
 
     if (updateFields.length > 0) {
       params.push(photoId);
-      await this.db.execute(
+      await this.db.run(
         `UPDATE restaurant_photos SET ${updateFields.join(', ')} WHERE id = ?`,
         params
       );
@@ -203,7 +231,7 @@ export class PhotoService {
     }
 
     // Delete from database
-    await this.db.execute('DELETE FROM restaurant_photos WHERE id = ?', [photoId]);
+    await this.db.run('DELETE FROM restaurant_photos WHERE id = ?', [photoId]);
   }
 
   /**
