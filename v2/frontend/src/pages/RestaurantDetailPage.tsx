@@ -28,6 +28,7 @@ export function RestaurantDetailPage() {
     is_fast_food: false,
     menu_link: '',
     photo_link: '',
+    state: 'pending' as 'pending' | 'active' | 'upcoming' | 'visited',
   });
 
   const restaurantId = id ? parseInt(id, 10) : undefined;
@@ -147,6 +148,7 @@ export function RestaurantDetailPage() {
       is_fast_food: !!restaurant.is_fast_food,
       menu_link: restaurant.menu_link || '',
       photo_link: restaurant.photo_link || '',
+      state: restaurant.state as 'pending' | 'active' | 'upcoming' | 'visited',
     });
     setIsEditing(true);
   };
@@ -163,6 +165,7 @@ export function RestaurantDetailPage() {
           is_fast_food: editForm.is_fast_food,
           menu_link: editForm.menu_link || undefined,
           photo_link: editForm.photo_link || undefined,
+          state: editForm.state,
         },
       });
       setIsEditing(false);
@@ -362,6 +365,22 @@ export function RestaurantDetailPage() {
                 onChange={(e) => setEditForm({ ...editForm, address: e.target.value })}
                 className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-navy-900"
               />
+            </div>
+
+            <div>
+              <label className="block text-sm font-semibold text-gray-700 mb-2">
+                Status
+              </label>
+              <select
+                value={editForm.state}
+                onChange={(e) => setEditForm({ ...editForm, state: e.target.value as any })}
+                className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-navy-900"
+              >
+                <option value="pending">Pending</option>
+                <option value="active">Active</option>
+                <option value="upcoming">Upcoming</option>
+                <option value="visited">Visited</option>
+              </select>
             </div>
 
             <div>
