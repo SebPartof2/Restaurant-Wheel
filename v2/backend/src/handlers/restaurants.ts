@@ -15,6 +15,7 @@ export async function handleGetRestaurants(c: Context<{ Bindings: Env; Variables
     const userId = c.req.query('user_id');
     const search = c.req.query('search');
     const sort = c.req.query('sort') as 'date' | 'rating' | 'name' | undefined;
+    const limit = c.req.query('limit');
 
     const db = createDbService(c.env);
     const restaurantService = new RestaurantService(db);
@@ -23,7 +24,8 @@ export async function handleGetRestaurants(c: Context<{ Bindings: Env; Variables
       state || undefined,
       userId ? parseInt(userId) : undefined,
       search || undefined,
-      sort || undefined
+      sort || undefined,
+      limit ? parseInt(limit) : undefined
     );
 
     return c.json({ restaurants });

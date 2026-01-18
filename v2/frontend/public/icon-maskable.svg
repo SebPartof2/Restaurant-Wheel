@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <defs>
+    <linearGradient id="skyGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#87CEEB;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#E0F4FF;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="wheelGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1e3a5f;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#2d5a8a;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+
+  <!-- Background (full bleed for maskable) -->
+  <rect width="512" height="512" fill="url(#skyGrad)"/>
+
+  <!-- Ferris Wheel Structure (scaled down for safe zone - 80% of icon) -->
+  <g transform="translate(256, 230)">
+    <!-- Main wheel circle -->
+    <circle cx="0" cy="0" r="110" fill="none" stroke="url(#wheelGrad)" stroke-width="12"/>
+
+    <!-- Spokes -->
+    <g stroke="url(#wheelGrad)" stroke-width="6">
+      <line x1="0" y1="-110" x2="0" y2="110"/>
+      <line x1="-110" y1="0" x2="110" y2="0"/>
+      <line x1="-78" y1="-78" x2="78" y2="78"/>
+      <line x1="78" y1="-78" x2="-78" y2="78"/>
+    </g>
+
+    <!-- Center hub -->
+    <circle cx="0" cy="0" r="20" fill="url(#wheelGrad)"/>
+    <circle cx="0" cy="0" r="10" fill="#FFD700"/>
+
+    <!-- Gondolas/Cabins -->
+    <g>
+      <!-- Top -->
+      <rect x="-16" y="-140" width="32" height="24" rx="6" fill="#FF6B6B"/>
+      <!-- Right -->
+      <rect x="100" y="-12" width="32" height="24" rx="6" fill="#4ECDC4"/>
+      <!-- Bottom-right -->
+      <rect x="64" y="84" width="32" height="24" rx="6" fill="#FFE66D"/>
+      <!-- Bottom-left -->
+      <rect x="-96" y="84" width="32" height="24" rx="6" fill="#95E1D3"/>
+      <!-- Left -->
+      <rect x="-132" y="-12" width="32" height="24" rx="6" fill="#F38181"/>
+      <!-- Top-right -->
+      <rect x="64" y="-108" width="32" height="24" rx="6" fill="#AA96DA"/>
+      <!-- Top-left -->
+      <rect x="-96" y="-108" width="32" height="24" rx="6" fill="#FCBAD3"/>
+      <!-- Bottom -->
+      <rect x="-16" y="116" width="32" height="24" rx="6" fill="#A8D8EA"/>
+    </g>
+  </g>
+
+  <!-- Support stand -->
+  <polygon points="256,340 200,410 312,410" fill="url(#wheelGrad)"/>
+  <rect x="230" y="410" width="52" height="16" rx="4" fill="url(#wheelGrad)"/>
+</svg>
